@@ -1,39 +1,22 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Payments', {
+    return queryInterface.createTable('Users', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      schoolId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Schools',
-          key: 'id',
-          as: 'schoolId',
-        },
-        onUpdate: 'CASCADE',
-      },
-      status: {
+      email: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      expMonth: {
+      password: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      expYear: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      amount: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      plan: {
+      isAdmin: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -48,6 +31,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Payments');
+    return queryInterface.dropTable('Users');
   }
 };

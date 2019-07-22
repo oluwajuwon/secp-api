@@ -8,44 +8,61 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      firstName: {
-        type: Sequelize.STRING
-      },
-      lastName: {
-        type: Sequelize.STRING
-      },
-      middleName: {
-        type: Sequelize.STRING
-      },
-      dateOfBirth: {
-        type: Sequelize.STRING
-      },
-      gender: {
-        type: Sequelize.STRING
-      },
-      schoolName: {
-        type: Sequelize.STRING
-      },
-      Term: {
-        type: Sequelize.STRING
-      },
-      year: {
-        type: Sequelize.STRING
-      },
-      class: {
-        type: Sequelize.STRING
-      },
-      amount: {
-        type: Sequelize.STRING
-      },
-      paymentStatus: {
-        type: Sequelize.STRING
-      },
       uuid: {
         type: Sequelize.UUID
       },
-      addedBy: {
-        type: Sequelize.INTEGER
+      schoolId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Schools',
+          key: 'id',
+          as: 'schoolId',
+        },
+        onUpdate: 'CASCADE',
+      },
+      firstName: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      lastName: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      middleName: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      dateOfBirth: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      gender: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      schoolName: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      Term: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      year: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      class: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      amount: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      paymentStatus: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
