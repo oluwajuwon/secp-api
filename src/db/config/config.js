@@ -10,9 +10,6 @@ module.exports = {
   development: {
     use_env_variable: 'DATABASE_URL',
     dialect,
-    dialectOptions: {
-      ssl: true
-    }
   },
   test: {
     use_env_variable: 'DATABASE_URL_TEST',
