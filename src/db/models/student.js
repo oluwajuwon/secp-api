@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     dateOfBirth: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: true,
     },
     gender: {
       type: DataTypes.STRING,
@@ -55,11 +55,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
   }, {
-    freezeTableName: true,
+    // freezeTableName: true,
   });
   Student.associate = function(models) {
     // associations can be defined here
-    Descriptors.belongsTo(models.School, {
+    Student.belongsTo(models.School, {
       foreignKey: 'schoolId',
       as: 'school',
       onDelete: 'CASCADE'

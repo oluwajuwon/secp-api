@@ -26,11 +26,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
   }, {
-    freezeTableName: true,
+    // freezeTableName: true,
   });
   Payment.associate = function(models) {
     // associations can be defined here
-    Descriptors.belongsTo(models.School, {
+    Payment.belongsTo(models.School, {
       foreignKey: 'schoolId',
       as: 'school',
       onDelete: 'CASCADE'
