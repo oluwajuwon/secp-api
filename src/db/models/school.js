@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     address: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     phone: {
       type: DataTypes.BIGINT,
@@ -23,15 +23,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     logo: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
   }, {
-    freezeTableName: true,
+    // freezeTableName: true,
   });
   School.associate = function(models) {
     // associations can be defined here
-    Address.hasMany(models.Student, { foreignKey: 'schoolId', as: 'student' });
-    Address.hasMany(models.Payment, { foreignKey: 'schoolId', as: 'payment' });
+    School.hasMany(models.Student, { foreignKey: 'schoolId', as: 'student' });
+    School.hasMany(models.Payment, { foreignKey: 'schoolId', as: 'payment' });
   };
   return School;
 };
