@@ -1,4 +1,4 @@
-import { saveSchool } from '../../repository/schoolRepository';
+import { saveSchool, findSchool } from '../../repository/schoolRepository';
 
 class AuthController {
   static async signup (request, response){
@@ -17,8 +17,23 @@ class AuthController {
       }
   }
 
-  static async login (){
+  static async login (request, response){
+    const { email, password } = request.body;
+    
+    try{
+      const foundSchool = await findSchool(email);
 
+      if(!foundSchool) {
+        return response.status(400).json({ message: 'Incorrect login details' });
+      }
+      if(foundSchool && foundSchool.password !== password) {
+        return response.status(400).json({ message: 'Incorrect login details' });
+      }
+
+      return response.status(200).json({ message: 'Welcome back' });
+    } catch(error) {
+      response.status(500).json({error: error.message});
+    }
   }
 
 }
