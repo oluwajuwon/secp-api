@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: {
+        args: true,
+        msg: 'Email address is already registered'
+      },
     },
     password: {
       type: DataTypes.STRING,
