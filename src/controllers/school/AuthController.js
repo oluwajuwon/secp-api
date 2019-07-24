@@ -5,16 +5,15 @@ class AuthController {
     const {
       name, email, password, address, phone, logo,
       } = request.body;
-      console.log(request.body);
+
       try{
         const newSchool = await saveSchool({ name, email, password, address, phone, logo });
-        console.log(newSchool);
+
         if(newSchool){
-          response.status(201).json({ status: 'success'})
+          response.status(201).json({ status: 'success'});
         }
       } catch(error){
-        console.log(error);
-        response.status(500).json({ message: error.message })
+        response.status(500).json({ message: error.message });
       }
   }
 
