@@ -1,12 +1,14 @@
+import bcrypt from 'bcrypt';
 import { saveSchool, findSchool } from '../../repository/schoolRepository';
 
 class AuthController {
   static async signup (request, response){
     const {
-      name, email, password, address, phone, logo,
+      name, email, password: rawPassword, address, phone, logo,
       } = request.body;
-
+      
       try{
+        const password = bcrypt.hashSync(rawPassword, 10);
         const newSchool = await saveSchool({ name, email, password, address, phone, logo });
 
         if(newSchool){
@@ -26,7 +28,9 @@ class AuthController {
       if(!foundSchool) {
         return response.status(400).json({ message: 'Incorrect login details' });
       }
-      if(foundSchool && foundSchool.password !== password) {
+      const checkPassword = bcrypt.compareSync(password, foundSchool.password);
+
+      if(!checkPassword) {
         return response.status(400).json({ message: 'Incorrect login details' });
       }
 
