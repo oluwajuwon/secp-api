@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     uuid: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: DataTypes.UUIDV1,
+      defaultValue: DataTypes.UUIDV4,
     },
     schoolId: {
       type: DataTypes.INTEGER,
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    Term: {
+    term: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    class: {
+    classOwed: {
       type: DataTypes.STRING,
       allowNull: false,
     },

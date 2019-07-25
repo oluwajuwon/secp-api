@@ -44,7 +44,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      Term: {
+      term: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -52,7 +52,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      class: {
+      classOwed: {
         type: Sequelize.STRING,
         allowNull: false,
       },
