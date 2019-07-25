@@ -36,8 +36,9 @@ class AuthController {
       }
       
       const token = await getUserToken(foundSchool, rememberMe);
+      const schoolDetails = await formatDetails(foundSchool);
       
-      return response.status(200).json({ message: 'Welcome back', token });
+      return response.status(200).json({ message: 'Welcome back', schoolDetails, token });
     } catch(error) {
       response.status(500).json({error: error.message});
     }
@@ -57,7 +58,16 @@ class AuthController {
     return token;
   }
 
+  static async formatDetails(school) {
+    const { id,name, email, address, phone,logo } = school;
+    const schoolDetails = {
+      id,name, email, address, phone,logo
+    }
+
+    return schoolDetails;
+  }
+
 }
 
-const { signup, login, getUserToken } = AuthController;
-export { signup, login, getUserToken };
+const { signup, login, getUserToken, formatDetails } = AuthController;
+export { signup, login, getUserToken, formatDetails };
