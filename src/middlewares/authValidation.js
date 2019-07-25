@@ -16,8 +16,17 @@ class AuthValidation {
     return next();
   }
 
-  validateLogin = async () => {
+  validateLogin = async (request, response, next) => {
+    const { email, password } = this.trimSignupFields(request.body);
 
+    let isValidEmail = await this.isEmailValid(email);
+
+    if (!isValidEmail) {
+      return response.status(400).json({ message: 'Please enter a valid email' });
+    }
+
+    request.body = { email, password };
+    return next();
   }
 
   trimSignupFields = (request) => {

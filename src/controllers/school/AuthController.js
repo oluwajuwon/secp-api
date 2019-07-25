@@ -25,17 +25,18 @@ class AuthController {
     
     try{
       const foundSchool = await findSchool(email);
-      const token = await getUserToken(foundSchool, rememberMe);
-
+      
       if(!foundSchool) {
         return response.status(400).json({ message: 'Incorrect login details' });
       }
       const checkPassword = bcrypt.compareSync(password, foundSchool.password);
-
+      
       if(!checkPassword) {
         return response.status(400).json({ message: 'Incorrect login details' });
       }
-
+      
+      const token = await getUserToken(foundSchool, rememberMe);
+      
       return response.status(200).json({ message: 'Welcome back', token });
     } catch(error) {
       response.status(500).json({error: error.message});
