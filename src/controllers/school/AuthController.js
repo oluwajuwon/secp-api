@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import { saveSchool, findSchool } from '../../repository/schoolRepository';
+import { generateToken } from '../../middlewares/jwtHandler';
 
 class AuthController {
   static async signup (request, response){
@@ -20,10 +21,11 @@ class AuthController {
   }
 
   static async login (request, response){
-    const { email, password } = request.body;
+    const { email, password, rememberMe } = request.body;
     
     try{
       const foundSchool = await findSchool(email);
+      const token = await getUserToken(foundSchool, rememberMe);
 
       if(!foundSchool) {
         return response.status(400).json({ message: 'Incorrect login details' });
@@ -34,13 +36,27 @@ class AuthController {
         return response.status(400).json({ message: 'Incorrect login details' });
       }
 
-      return response.status(200).json({ message: 'Welcome back' });
+      return response.status(200).json({ message: 'Welcome back', token });
     } catch(error) {
       response.status(500).json({error: error.message});
     }
   }
 
+  static async getUserToken(foundUser, rememberMe) {
+    const { id, email } = foundUser;
+    const payload = { id, email };
+    const time = {};
+
+    if (!rememberMe) {
+      time.expiresIn = '24h';
+    } else {
+      time.expiresIn = '240h';
+    }
+    const token = await generateToken(payload, time);
+    return token;
+  }
+
 }
 
-const { signup, login } = AuthController;
-export { signup, login };
+const { signup, login, getUserToken } = AuthController;
+export { signup, login, getUserToken };
