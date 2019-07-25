@@ -11,9 +11,7 @@ class SchoolRepository {
 
   static async findSchool(email) {
     const foundSchool = await School.findOne({
-      where: { 
-        email
-      },
+      where: { email },
     });
 
     return foundSchool;
