@@ -2,8 +2,7 @@ import { saveDebtor } from '../../repository/debtorRepository';
 
 class DebtorController {
   static async addNew (request, response) {
-    const { 
-      addedBy:schoolId,
+    const {
       firstName,
       lastName,
       middleName,
@@ -16,6 +15,8 @@ class DebtorController {
       amount,
       paymentStatus,
     } = request.body
+
+    console.log('GOT HERER');
 
     try {
       const newDebtor = await saveDebtor({
@@ -38,7 +39,6 @@ class DebtorController {
     } catch (error){
       response.status(500).json({ message: error.message });
     }
-
 
   }
 
