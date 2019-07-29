@@ -17,8 +17,15 @@ class DebtorRepository {
     return foundDebtor;
   }
 
+  static async updateDebtor(uuid, paymentStatus) {
+    const updatedDebtor = await Student.update({ paymentStatus }, 
+      {
+        where: { uuid }
+      });
 
+      return updatedDebtor;
+  }
 }
 
-const { saveDebtor, findDebtor } = DebtorRepository;
-export { saveDebtor, findDebtor };
+const { saveDebtor, findDebtor, updateDebtor } = DebtorRepository;
+export { saveDebtor, findDebtor, updateDebtor };

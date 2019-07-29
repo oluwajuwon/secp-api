@@ -1,4 +1,4 @@
-import { saveDebtor } from '../../repository/debtorRepository';
+import { saveDebtor, updateDebtor } from '../../repository/debtorRepository';
 
 class DebtorController {
   static async addNew (request, response) {
@@ -17,7 +17,6 @@ class DebtorController {
     } = request.body
 
    const { id:schoolId } = request.userData.payload;
-   console.log(request.userData);
 
     try {
       const newDebtor = await saveDebtor({
@@ -43,7 +42,21 @@ class DebtorController {
 
   }
 
+  static async updateDebtorInfo (request, response) {
+    const { uuid, paymentStatus } = request.body;
+
+    try{
+      const updatedDebtor = await updateDebtor(uuid, paymentStatus.toLowerCase());
+
+      if(updatedDebtor){
+        response.status(201).json({ status: `successfully updated the debtor's account`});
+      }
+    } catch(error) {
+      response.status(500).json({ message: error.message });
+    }
+  }
+
 }
 
-const { addNew } = DebtorController;
-export { addNew };
+const { addNew, updateDebtorInfo } = DebtorController;
+export { addNew, updateDebtorInfo };

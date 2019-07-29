@@ -1,3 +1,4 @@
+import { findDebtor }from '../repository/debtorRepository';
 
 class DebtorValidation {
   validateDebtor = async (request, response, next) => {
@@ -123,6 +124,55 @@ class DebtorValidation {
 
   isDateValid = (date) => {
     return /^\d{4}-\d{1,2}\-\d{1,2}$/.test(date);
+  }
+
+  validateDebtorStatus = async (request, response, next) => {
+    const { uuid, paymentStatus } = request.body;
+    const { id } = request.userData.payload;
+
+    try{
+      const errors = await this.validateDebtorUpdate(uuid, paymentStatus,id);
+  
+      if (errors.length > 0) {
+        return response.status(400).json({ status: 'Error', errors });
+      }
+
+      request.body = { uuid, paymentStatus };
+      return next();
+
+    } catch(error) {
+      return response.status(500).json({ status: 'Error', message: error.message });
+    }
+
+  }
+
+
+  validateDebtorUpdate = async (uuid, paymentStatus, schoolId) => {
+    let errors = [];
+    const status = ['yes','no'];
+
+
+    try {
+      const debtorCount = await findDebtor(uuid);
+
+      if (!debtorCount) {
+        errors.push('This debtor does not exist')
+      }
+
+      if (!status.includes(paymentStatus.toLowerCase().trim())) {
+        errors.push('The status should either be yes or no')
+      }
+
+      if (schoolId !== debtorCount.schoolId) {
+        errors.push(`sorry you can't edit this debtor's details`)
+      }
+
+    } catch (error) {
+      errors.push(error.message)
+    }
+
+    return errors;
+
   }
 
 }
