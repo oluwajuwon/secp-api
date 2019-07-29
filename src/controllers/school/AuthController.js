@@ -46,7 +46,7 @@ class AuthController {
 
   static async getUserToken(foundUser, rememberMe) {
     const { id, email } = foundUser;
-    const payload = { id, email };
+    const payload = { id, email, isAdmin: false };
     const time = {};
 
     if (!rememberMe) {

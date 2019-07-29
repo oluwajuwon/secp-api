@@ -13,7 +13,7 @@ class JwtHandler {
   static verifyToken(request, response, next) {
     const token = request.headers.token || request.body.token;
     if (!token) {
-      return response.status(403).json({ message: 'No token supplied, please login or signup'});
+      return response.status(403).json({ message: 'please login or signup'});
     }
     return jwt.verify(token, process.env.TOKEN_SECRET_KEY, (error, userData) => {
       if (error) {
