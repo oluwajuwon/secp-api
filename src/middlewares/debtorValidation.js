@@ -91,7 +91,7 @@ class DebtorValidation {
       errors.push('Middle name is required')
     }
     if (this.isDateValid(dateOfBirth) === false) {
-      errors.push('Date of birth should in this format (dd-mm-yyyy)')
+      errors.push('Date of birth should in this format (yyyy-mm-dd)')
     }
     if (gender === '' || gender === undefined) {
       errors.push('Gender is required')
@@ -122,7 +122,7 @@ class DebtorValidation {
  }
 
   isDateValid = (date) => {
-    return /^\d{1,2}\-\d{1,2}\-\d{4}$/.test(date);
+    return /^\d{4}-\d{1,2}\-\d{1,2}$/.test(date);
   }
 
 }

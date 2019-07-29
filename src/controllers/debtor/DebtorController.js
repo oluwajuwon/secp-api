@@ -16,7 +16,8 @@ class DebtorController {
       paymentStatus,
     } = request.body
 
-    console.log('GOT HERER');
+   const { id:schoolId } = request.userData.payload;
+   console.log(request.userData);
 
     try {
       const newDebtor = await saveDebtor({
