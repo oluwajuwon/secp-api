@@ -6,7 +6,9 @@ class SchoolController {
     const { schoolId, email, name, address, phone, logo } = await sortUpdateSchoolData(request);
 
     try{
-      const updatedSchool = await updateSchool(schoolId, email, name, address, phone, logo );
+      const updatedSchool = await updateSchool(schoolId,
+        email.trim(), name.trim(), address.trim(), phone.trim(), logo.trim(),
+        );
 
       if(updatedSchool){
         response.status(201).json({ status: `successfully updated your details` });
