@@ -6,7 +6,7 @@ class SchoolValidation {
     const { schoolId:id } = request.params;
 
     try{
-      const { errors, foundSchool } = await this.validateSchoolId(id);
+      const { errors, foundSchool } = await this.validateSchoolId(id, request.userData);
 
       if (errors.length > 0) {
         return response.status(400).json({ status: 'Error', errors });
@@ -20,7 +20,7 @@ class SchoolValidation {
     }
   }
 
-  validateSchoolId = async (id) => {
+  validateSchoolId = async (id, userData) => {
     let errors = [];
     const foundSchool = await findSchoolById(id)
 
@@ -29,6 +29,9 @@ class SchoolValidation {
     }
     if(!foundSchool) {
       errors.push('School does not exist')
+    }
+    if(foundSchool.id !== userData.payload.id) {
+      errors.push(`You can't edit this information`)
     }
 
     return { errors, foundSchool };
