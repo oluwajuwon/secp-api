@@ -17,8 +17,24 @@ class SchoolRepository {
     return foundSchool;
   }
 
+  static async findSchoolById(id) {
+    const foundSchool = await School.findOne({
+      where: { id },
+    });
+
+    return foundSchool;
+  }
+
+  static async updateSchool(id, email, name, address, phone, logo) {
+    const updatedSchool = await School.update({ email, name, address, phone, logo }, 
+      {
+        where: { id }
+      });
+
+      return updatedSchool;
+  }
 
 }
 
-const { saveSchool, findSchool } = SchoolRepository;
-export { saveSchool, findSchool };
+const { saveSchool, findSchool, findSchoolById, updateSchool } = SchoolRepository;
+export { saveSchool, findSchool, findSchoolById, updateSchool };
