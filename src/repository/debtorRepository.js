@@ -28,14 +28,21 @@ class DebtorRepository {
 
   static async getDebtorsBySchoolId(schoolId) {
     const allDebtors = await Student.findAll({
-      where: { schoolId }
+      where: { schoolId },
+      attributes: {
+        exclude: ['id', 'createdAt', 'updatedAt']
+      }
     });
 
     return allDebtors;
   }
 
   static async getDebtors(){
-    const allDebtors = await Student.findAll();
+    const allDebtors = await Student.findAll({
+      attributes: {
+        exclude: ['id', 'createdAt', 'updatedAt']
+      }
+    });
 
     return allDebtors;
   }
