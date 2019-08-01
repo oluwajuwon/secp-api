@@ -1,4 +1,6 @@
-import { saveDebtor, updateDebtor } from '../../repository/debtorRepository';
+import {
+  saveDebtor, updateDebtor, getDebtorsBySchoolId, getDebtors,
+} from '../../repository/debtorRepository';
 
 class DebtorController {
   static async addNew (request, response) {
@@ -56,7 +58,22 @@ class DebtorController {
     }
   }
 
+  static async getAllDebtors (request, response) {
+    const { isAdmin, id } = request.userData.payload
+
+    try{
+      const allDebtors = isAdmin ? await getDebtors() : await getDebtorsBySchoolId(id);
+
+      if(allDebtors){
+        response.status(200).json({ status: 'successfully retrieved all debtors', allDebtors });
+      }
+    } catch(error) {
+      response.status(500).json({ message: error.message });
+    }
+
+  }
+
 }
 
-const { addNew, updateDebtorInfo } = DebtorController;
-export { addNew, updateDebtorInfo };
+const { addNew, updateDebtorInfo, getAllDebtors } = DebtorController;
+export { addNew, updateDebtorInfo, getAllDebtors };

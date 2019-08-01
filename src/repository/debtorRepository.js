@@ -25,7 +25,25 @@ class DebtorRepository {
 
       return updatedDebtor;
   }
+
+  static async getDebtorsBySchoolId(schoolId) {
+    const allDebtors = await Student.findAll({
+      where: { schoolId }
+    });
+
+    return allDebtors;
+  }
+
+  static async getDebtors(){
+    const allDebtors = await Student.findAll();
+
+    return allDebtors;
+  }
 }
 
-const { saveDebtor, findDebtor, updateDebtor } = DebtorRepository;
-export { saveDebtor, findDebtor, updateDebtor };
+const {
+  saveDebtor, findDebtor, updateDebtor, getDebtorsBySchoolId, getDebtors,
+} = DebtorRepository;
+export {
+  saveDebtor, findDebtor, updateDebtor, getDebtorsBySchoolId, getDebtors,
+};
