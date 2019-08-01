@@ -4,7 +4,7 @@ const useInitialDependencies = (app, bodyParser, helmet, cors, morgan, swaggerUI
   app.use(bodyParser.json());
   app.use(cors());
   app.use(morgan('combined'));
-  app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+  app.use('/api/v1/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 };
 
 export { useInitialDependencies };
