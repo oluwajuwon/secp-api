@@ -245,5 +245,63 @@ export default {
         }
       }
     },
+    '/debtors': {
+      get: {
+        tags: ['debtors'],
+        summary: 'Retrieve debtors added by school',
+        description: '',
+        parameters: [
+          {
+            name: 'token',
+            in: 'header',
+            required: true,
+            type: 'string',
+            description: ''
+          }
+        ],
+        produces: ['application/json'],
+        responses: {
+          200: {
+            description: 'successfully retrieved all debtors',
+            schema: {
+              properties: {
+                status: {
+                  type: 'string'
+                },
+                allDebtors: {
+                  type: 'array'
+                },
+              },
+              example: {
+                status: 'successfully retrieved all debtors',
+                allDebtors: [
+                  {
+                    uuid: 'ververver9venvu9er',
+                    schoolId: 2,
+                    firstName: 'ajalinkoko',
+                    lastName: 'man',
+                    middleName: 'sureboy',
+                    dateOfBirth: '2019-07-20 00:00:00.000 +00:00',
+                    gender: 'female',
+                    schoolName: 'limpopo',
+                    term: '2nd',
+                    year: '2017',
+                    classOwed: 'ss3',
+                    amount: '20000',
+                    paymentStatus: 'no',
+                  }
+                ],
+              }
+            }
+          },
+          400: {
+            description: 'Validation exception'
+          },
+          500: {
+            description: 'Other exceptions'
+          }
+        }
+      }
+    },
   },
 };
