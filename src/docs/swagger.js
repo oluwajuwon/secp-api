@@ -250,6 +250,59 @@ export default {
             description: 'Other exceptions'
           }
         }
+      },
+      put: {
+        tags: ['debtors'],
+        summary: 'Updating an existing debtor',
+        description: '',
+        parameters: [
+          {
+            name: 'Debtor',
+            in: 'body',
+            description: 'Debtor object that is to be updated',
+            schema: {
+              properties: {
+                paymentStatus: {
+                  required: true,
+                  type: 'string'
+                },
+                uuid: {
+                  required: true,
+                  type: 'string'
+                },
+              }
+            }
+          },
+          {
+            name: 'token',
+            in: 'header',
+            required: true,
+            type: 'string',
+            description: ''
+          }
+        ],
+        produces: ['application/json'],
+        responses: {
+          200: {
+            description: 'Added debtor successfully',
+            schema: {
+              properties: {
+                message: {
+                  type: 'string'
+                }
+              },
+              example: {
+                message: `successfully updated the debtor's account`,
+                }
+            }
+          },
+          400: {
+            description: 'Validation exception'
+          },
+          500: {
+            description: 'Other exceptions'
+          }
+        }
       }
     },
     '/debtors': {
