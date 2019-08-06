@@ -20,7 +20,7 @@ export default {
     }
   },
   host: APP_BASE_URL,
-  basePath: '/api',
+  basePath: '/api/v1',
   consumes: ['application/json'],
   produces: ['application/json'],
   tags: [
@@ -150,6 +150,90 @@ export default {
                 },
                 token: 'vnefjve.fr43$Vreer$@R@fww',
               }
+            }
+          },
+          400: {
+            description: 'Validation exception'
+          },
+          500: {
+            description: 'Other exceptions'
+          }
+        }
+      }
+    },
+    '/debtor': {
+      post: {
+        tags: ['debtors'],
+        summary: 'Adding a new debtor',
+        description: '',
+        parameters: [
+          {
+            name: 'Debtor',
+            in: 'body',
+            description: 'Debtor object that is to be created',
+            schema: {
+              properties: {
+                firstName: {
+                  required: true,
+                  type: 'string'
+                },
+                lastName: {
+                  required: true,
+                  type: 'string'
+                },
+                middleName: {
+                  required: true,
+                  type: 'string'
+                },
+                dateOfBirth: {
+                  required: true,
+                  type: 'string'
+                },
+                gender: {
+                  required: true,
+                  type: 'string'
+                },
+                schoolName: {
+                  required: true,
+                  type: 'string'
+                },
+                term: {
+                  required: true,
+                  type: 'string'
+                },
+                year: {
+                  required: true,
+                  type: 'string'
+                },
+                classOwed: {
+                  required: true,
+                  type: 'string'
+                },
+                amount: {
+                  required: true,
+                  type: 'number'
+                },
+                paymentStatus: {
+                  required: true,
+                  type: 'string'
+                },
+              }
+            }
+          }
+        ],
+        produces: ['application/json'],
+        responses: {
+          201: {
+            description: 'Added debtor successfully',
+            schema: {
+              properties: {
+                status: {
+                  type: 'string'
+                }
+              },
+              example: {
+                status: 'success',
+                }
             }
           },
           400: {
