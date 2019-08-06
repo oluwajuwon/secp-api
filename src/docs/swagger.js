@@ -98,5 +98,68 @@ export default {
         }
       }
     },
+    '/schools/login': {
+      post: {
+        tags: ['schools'],
+        summary: 'Login for schools',
+        description: '',
+        parameters: [
+          {
+            name: 'School',
+            in: 'body',
+            description: 'School object that is to be logged in',
+            schema: {
+              properties: {
+                email: {
+                  required: true,
+                  type: 'string'
+                },
+                password: {
+                  required: true,
+                  type: 'string'
+                },
+              }
+            }
+          }
+        ],
+        produces: ['application/json'],
+        responses: {
+          200: {
+            description: 'Logged in successfully',
+            schema: {
+              properties: {
+                message: {
+                  type: 'string'
+                },
+                schoolDetails: {
+                  type: 'object'
+                },
+                token: {
+                  type: 'string'
+                }
+              },
+              example: {
+                message: 'Welcome back',
+                schoolDetails: {
+                  id: 1,
+                  name: 'new school',
+                  email: 'schooly@gmail.com',
+                  address: '100, new road',
+                  phone: '09131343553',
+                  logo: 'https://img.url.com',
+                },
+                token: 'vnefjve.fr43$Vreer$@R@fww',
+              }
+            }
+          },
+          400: {
+            description: 'Validation exception'
+          },
+          500: {
+            description: 'Other exceptions'
+          }
+        }
+      }
+    },
   },
 };
