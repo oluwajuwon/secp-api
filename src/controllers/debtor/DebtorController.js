@@ -51,7 +51,7 @@ class DebtorController {
       const updatedDebtor = await updateDebtor(uuid, paymentStatus.toLowerCase());
 
       if(updatedDebtor){
-        response.status(201).json({ status: `successfully updated the debtor's account`});
+        response.status(201).json({ message: `successfully updated the debtor's account`});
       }
     } catch(error) {
       response.status(500).json({ message: error.message });
