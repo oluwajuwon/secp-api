@@ -3,8 +3,6 @@ import { findUser } from '../repository/userRepository';
 
 dotenv.config();
 
-process.env.ADMIN_SECRET_KEY
-
 class AdminValidation {
 
   validateSignup = async (request, response, next) => {
