@@ -23,5 +23,80 @@ export default {
   basePath: '/api',
   consumes: ['application/json'],
   produces: ['application/json'],
-
+  tags: [
+    {
+      name: 'schools',
+      description: 'The schools that have access to SECP'
+    },
+    {
+      name: 'debtors',
+      description: 'The students that owe and have been added to SECP'
+    },
+  ],
+  paths: {
+    '/schools/signup': {
+      post: {
+        tags: ['schools'],
+        summary: 'A new school signup',
+        description: '',
+        parameters: [
+          {
+            name: 'School',
+            in: 'body',
+            description: 'School object that is to be created',
+            schema: {
+              properties: {
+                email: {
+                  required: true,
+                  type: 'string'
+                },
+                password: {
+                  required: true,
+                  type: 'string'
+                },
+                name: {
+                  required: true,
+                  type: 'string'
+                },
+                address: {
+                  required: false,
+                  type: 'string'
+                },
+                phone: {
+                  required: true,
+                  type: 'string'
+                },
+                logo: {
+                  required: false,
+                  type: 'string'
+                }
+              }
+            }
+          }
+        ],
+        produces: ['application/json'],
+        responses: {
+          201: {
+            description: 'Signed up successfully',
+            schema: {
+              properties: {
+                status: {
+                  type: 'string'
+                }
+              },
+              example: {
+                status: 'success',
+                }
+            }
+          },
+          400: {
+            description: 'Validation exception'
+          },
+          500: {
+            description: 'Other exceptions'
+          }
+        }
+      }
+    },
+  },
 };
