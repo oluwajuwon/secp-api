@@ -8,9 +8,9 @@ process.env.ADMIN_SECRET_KEY
 class AdminValidation {
 
   validateSignup = async (request, response, next) => {
-    const { email, password } = this.trimSignupFields(request.body);
+    const { email, password, adminCode } = this.trimSignupFields(request.body);
 
-    let errors = await this.isRequestParametersValid(email, password );
+    let errors = await this.isRequestParametersValid(email, password, adminCode );
 
     if (errors.length > 0) {
       return response.status(400).json({ status: 'Error', errors });
@@ -23,11 +23,12 @@ class AdminValidation {
   trimSignupFields = (request) => {
     const email = request.email ? request.email.trim() : '';
     const password = request.password ? request.password.trim() : '';
+    const adminCode = request.adminCode ? request.adminCode.trim() : '';
 
-    return { email, password };
+    return { email, password, adminCode };
   }
 
-  isRequestParametersValid = async (email, password ) => {
+  isRequestParametersValid = async (email, password, adminCode ) => {
     const userCount = await findUser(email);
     let errors = [];
 
@@ -42,6 +43,9 @@ class AdminValidation {
     }
     if (password === '' || password === undefined) {
         errors.push('Password is required')
+    }
+    if (adminCode !== process.env.ADMIN_SECRET_KEY ) {
+      errors.push('Please enter a valid code');
     }
 
     return errors;
