@@ -40,7 +40,7 @@ class AuthController {
       
       return response.status(200).json({ message: 'Welcome back', schoolDetails, token });
     } catch(error) {
-      response.status(500).json({error: error.message});
+      response.status(500).json({ error: error.message });
     }
   }
 
