@@ -9,7 +9,15 @@ class UserRepository {
     return newUser;
   }
 
+  static async findUser(email) {
+    const foundUser = await User.findOne({
+      where: { email },
+    });
+
+    return foundUser;
+  }
+
 }
 
-const { addNewUser } = UserRepository;
-export { addNewUser };
+const { addNewUser, findUser } = UserRepository;
+export { addNewUser, findUser };
