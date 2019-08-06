@@ -219,6 +219,13 @@ export default {
                 },
               }
             }
+          },
+          {
+            name: 'token',
+            in: 'header',
+            required: true,
+            type: 'string',
+            description: ''
           }
         ],
         produces: ['application/json'],
