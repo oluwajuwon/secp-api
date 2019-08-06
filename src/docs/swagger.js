@@ -161,6 +161,73 @@ export default {
         }
       }
     },
+    '/schools/:schoolId': {
+      put: {
+        tags: ['schools'],
+        summary: 'Updating an existing school',
+        description: '',
+        parameters: [
+          {
+            name: 'School',
+            in: 'body',
+            description: 'School object that is to be updated',
+            schema: {
+              properties: {
+                email: {
+                  required: true,
+                  type: 'string'
+                },
+                name: {
+                  required: true,
+                  type: 'string'
+                },
+                address: {
+                  required: false,
+                  type: 'string'
+                },
+                phone: {
+                  required: true,
+                  type: 'string'
+                },
+                logo: {
+                  required: false,
+                  type: 'string'
+                }
+              }
+            }
+          },
+          {
+            name: 'token',
+            in: 'header',
+            required: true,
+            type: 'string',
+            description: ''
+          }
+        ],
+        produces: ['application/json'],
+        responses: {
+          200: {
+            description: 'successfully updated your details',
+            schema: {
+              properties: {
+                message: {
+                  type: 'string'
+                }
+              },
+              example: {
+                message: 'successfully updated your details',
+                }
+            }
+          },
+          400: {
+            description: 'Validation exception'
+          },
+          500: {
+            description: 'Other exceptions'
+          }
+        }
+      }
+    },
     '/debtor': {
       post: {
         tags: ['debtors'],

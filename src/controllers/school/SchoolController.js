@@ -11,10 +11,10 @@ class SchoolController {
         );
 
       if(updatedSchool){
-        response.status(201).json({ status: `successfully updated your details` });
+        response.status(200).json({ message: 'successfully updated your details' });
       }
     } catch(error) {
-      response.status(500).json({error: error.message});
+      response.status(500).json({ error: error.message });
     }
   }
 

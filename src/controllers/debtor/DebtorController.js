@@ -51,7 +51,7 @@ class DebtorController {
       const updatedDebtor = await updateDebtor(uuid, paymentStatus.toLowerCase());
 
       if(updatedDebtor){
-        response.status(201).json({ message: `successfully updated the debtor's account`});
+        response.status(200).json({ message: `successfully updated the debtor's account`});
       }
     } catch(error) {
       response.status(500).json({ message: error.message });
@@ -65,7 +65,7 @@ class DebtorController {
       const allDebtors = isAdmin ? await getDebtors() : await getDebtorsBySchoolId(id);
 
       if(allDebtors){
-        response.status(200).json({ status: 'successfully retrieved all debtors', allDebtors });
+        response.status(200).json({ message: 'successfully retrieved all debtors', allDebtors });
       }
     } catch(error) {
       response.status(500).json({ message: error.message });
