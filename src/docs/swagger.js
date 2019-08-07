@@ -32,6 +32,10 @@ export default {
       name: 'debtors',
       description: 'The students that owe and have been added to SECP'
     },
+    {
+      name: 'admin',
+      description: 'The main administrator that manages SECP'
+    },
   ],
   paths: {
     '/schools/signup': {
@@ -201,6 +205,13 @@ export default {
             in: 'header',
             required: true,
             type: 'string',
+            description: ''
+          },
+          {
+            name: 'schoolId',
+            in: 'params',
+            required: true,
+            type: 'number',
             description: ''
           }
         ],
@@ -419,6 +430,58 @@ export default {
                   }
                 ],
               }
+            }
+          },
+          400: {
+            description: 'Validation exception'
+          },
+          500: {
+            description: 'Other exceptions'
+          }
+        }
+      }
+    },
+    '/admin/signup': {
+      post: {
+        tags: ['admin'],
+        summary: 'A new admin signup',
+        description: '',
+        parameters: [
+          {
+            name: 'Admin',
+            in: 'body',
+            description: 'Admin object that is to be created',
+            schema: {
+              properties: {
+                email: {
+                  required: true,
+                  type: 'string'
+                },
+                password: {
+                  required: true,
+                  type: 'string'
+                },
+                adminCode: {
+                  required: true,
+                  type: 'string'
+                },
+              }
+            }
+          }
+        ],
+        produces: ['application/json'],
+        responses: {
+          201: {
+            description: 'Signed up successfully',
+            schema: {
+              properties: {
+                status: {
+                  type: 'string'
+                }
+              },
+              example: {
+                status: 'success',
+                }
             }
           },
           400: {
