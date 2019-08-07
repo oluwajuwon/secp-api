@@ -24,6 +24,9 @@ class AuthValidation {
     if (!isValidEmail) {
       return response.status(400).json({ message: 'Please enter a valid email' });
     }
+    if (password === '' || password === undefined) {
+      return response.status(400).json({ message: 'Please enter a valid password' });
+    }
 
     request.body = { email, password };
     return next();
