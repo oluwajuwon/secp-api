@@ -163,6 +163,9 @@ export default {
           400: {
             description: 'Validation exception'
           },
+          401: {
+            description: 'Unauthorized'
+          },
           500: {
             description: 'Other exceptions'
           }
@@ -490,6 +493,65 @@ export default {
           },
           400: {
             description: 'Validation exception'
+          },
+          500: {
+            description: 'Other exceptions'
+          }
+        }
+      }
+    },
+    '/admin/login': {
+      post: {
+        tags: ['admin'],
+        summary: 'Login for admin users',
+        description: '',
+        parameters: [
+          {
+            name: 'Admin',
+            in: 'body',
+            description: 'Admin object that is to be logged in',
+            schema: {
+              properties: {
+                email: {
+                  required: true,
+                  type: 'string'
+                },
+                password: {
+                  required: true,
+                  type: 'string'
+                },
+                rememberMe: {
+                  required: true,
+                  type: 'string'
+                },
+              }
+            }
+          }
+        ],
+        produces: ['application/json'],
+        responses: {
+          200: {
+            description: 'Logged in successfully',
+            schema: {
+              properties: {
+                message: {
+                  type: 'string'
+                },
+                token: {
+                  type: 'string'
+                }
+              },
+              example: {
+                message: 'Welcome back',
+                token: 'vnefjve.fr43$Vreer$@R@fww',
+              }
+            }
+          },
+          400: {
+            description: 'Validation exception'
+          },
+          401: {
+            description: 'Unauthorized'
           },
           500: {
             description: 'Other exceptions'
