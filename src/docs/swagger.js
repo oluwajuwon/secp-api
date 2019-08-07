@@ -122,6 +122,10 @@ export default {
                   required: true,
                   type: 'string'
                 },
+                rememberMe: {
+                  required: true,
+                  type: 'string'
+                },
               }
             }
           }
