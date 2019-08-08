@@ -34,7 +34,21 @@ class SchoolRepository {
       return updatedSchool;
   }
 
+  static async getAllSchools() {
+    const allSchools = await School.findAll({
+      attributes: {
+        exclude: ['password', 'createdAt', 'updatedAt']
+      }
+    });
+
+    return allSchools
+  }
+
 }
 
-const { saveSchool, findSchool, findSchoolById, updateSchool } = SchoolRepository;
-export { saveSchool, findSchool, findSchoolById, updateSchool };
+const {
+  saveSchool, findSchool, findSchoolById, updateSchool, getAllSchools,
+} = SchoolRepository;
+export {
+  saveSchool, findSchool, findSchoolById, updateSchool, getAllSchools,
+};
