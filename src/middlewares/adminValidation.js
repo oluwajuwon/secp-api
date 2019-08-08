@@ -52,6 +52,16 @@ class AdminValidation {
   isEmailValid = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
+
+  verifyAdmin = (request, response, next) => {
+    const { isAdmin } = request.userData.payload;
+
+    if(!isAdmin) {
+      return response.status(403).json({ status: 'Error', message: 'Please contact your administrator' });
+    }
+
+    return next();
+  }
 }
 
 const adminValidation = new AdminValidation();
