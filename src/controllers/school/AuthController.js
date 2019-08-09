@@ -1,4 +1,6 @@
 import bcrypt from 'bcrypt';
+import sendMail from '../../helpers/sendMail';
+import { welcomeMail, welcomeMailText } from '../../helpers/mailContent';
 import { saveSchool, findSchool } from '../../repository/schoolRepository';
 import { generateToken } from '../../middlewares/jwtHandler';
 
@@ -11,9 +13,11 @@ class AuthController {
       try{
         const password = bcrypt.hashSync(rawPassword, 10);
         const newSchool = await saveSchool({ name, email, password, address, phone, logo });
+        const emailSubject = 'Welcome to SECP';
 
         if(newSchool){
-          response.status(201).json({ status: 'success'});
+          sendMail(email, emailSubject, welcomeMail, welcomeMailText);
+          return response.status(201).json({ status: 'success'});
         }
       } catch(error){
         response.status(500).json({ message: error.message });
