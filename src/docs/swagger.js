@@ -38,7 +38,7 @@ export default {
     },
   ],
   paths: {
-    '/schools/signup': {
+    '/school/signup': {
       post: {
         tags: ['schools'],
         summary: 'A new school signup',
@@ -102,7 +102,7 @@ export default {
         }
       }
     },
-    '/schools/login': {
+    '/school/login': {
       post: {
         tags: ['schools'],
         summary: 'Login for schools',
@@ -172,7 +172,7 @@ export default {
         }
       }
     },
-    '/schools/:schoolId': {
+    '/school/:schoolId': {
       put: {
         tags: ['schools'],
         summary: 'Updating an existing school',
@@ -239,6 +239,47 @@ export default {
           },
           400: {
             description: 'Validation exception'
+          },
+          500: {
+            description: 'Other exceptions'
+          }
+        }
+      }
+    },
+    '/school/auth/forgotPassword': {
+      post: {
+        tags: ['schools'],
+        summary: 'Route for schools that forget their passwords',
+        description: '',
+        parameters: [
+          {
+            name: 'School',
+            in: 'body',
+            description: 'School object that is to request for a password change',
+            schema: {
+              properties: {
+                email: {
+                  required: true,
+                  type: 'string'
+                }
+              }
+            }
+          }
+        ],
+        produces: ['application/json'],
+        responses: {
+          201: {
+            description: 'mail sent successfully',
+            schema: {
+              properties: {
+                message: {
+                  type: 'string'
+                }
+              },
+              example: {
+                message: 'Please check your email to reset your password',
+                }
+            }
           },
           500: {
             description: 'Other exceptions'
@@ -393,7 +434,7 @@ export default {
     '/debtors': {
       get: {
         tags: ['debtors'],
-        summary: 'Retrieve debtors added by school',
+        summary: 'Retrieve debtors added by school or all debtors if admin',
         description: '',
         parameters: [
           {

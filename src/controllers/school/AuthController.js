@@ -98,7 +98,7 @@ class AuthController {
     const resetMail = `
     <div>
       <h2>Reset your password</h2>
-      <p>please click the link below to reset your password</p>
+      <p>please click the link below to reset your password. <br> NOTE: this link expires in a day</p>
       <a href="${hostUrl}/${userToken}">Click here to reset your password</a>
     </div>`;
 
