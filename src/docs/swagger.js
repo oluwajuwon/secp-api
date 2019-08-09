@@ -268,7 +268,7 @@ export default {
         ],
         produces: ['application/json'],
         responses: {
-          201: {
+          200: {
             description: 'mail sent successfully',
             schema: {
               properties: {
@@ -410,7 +410,7 @@ export default {
         produces: ['application/json'],
         responses: {
           200: {
-            description: 'Added debtor successfully',
+            description: 'updated debtor successfully',
             schema: {
               properties: {
                 message: {
