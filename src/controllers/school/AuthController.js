@@ -71,7 +71,40 @@ class AuthController {
     return schoolDetails;
   }
 
+  static async forgotPassword (request, response) {
+    const { email } = request.body;
+
+    try {
+      const foundSchool = await findSchool(email.trim());
+      if(!foundSchool) {
+        return response.status(200).json({ message: 'Please check your email to reset your password' });
+      }
+
+      await sendPasswordResetEmail(foundSchool);
+      return response.status(200).json({ message: 'Please check your email to reset your password' });
+
+    } catch (error){
+      response.status(500).json({ error: error.message });
+    }
+  }
+
+  static async sendPasswordResetEmail (foundSchool) {
+    const { email, id } = foundSchool;
+    const payload = { id, email };
+    const time = { expiresIn: '24hr' };
+    const userToken = generateToken({ payload }, time);
+    const emailSubject = 'Password Reset on SECP';
+    const hostUrl = process.env.HOST_URL;
+    const resetMail = `
+    <div>
+      <h2>Reset your password</h2>
+      <p>please click the link below to reset your password</p>
+      <a href="${hostUrl}/${userToken}">Click here to reset your password</a>
+    </div>`;
+
+    await sendMail(email, emailSubject, resetMail);
+  }
 }
 
-const { signup, login, getUserToken, formatDetails } = AuthController;
-export { signup, login, getUserToken, formatDetails };
+const { signup, login, getUserToken, formatDetails, forgotPassword, sendPasswordResetEmail } = AuthController;
+export { signup, login, getUserToken, formatDetails, forgotPassword, sendPasswordResetEmail };
