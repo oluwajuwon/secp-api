@@ -6,6 +6,7 @@ import { verifyToken } from '../../middlewares/jwtHandler';
 import adminValidation from '../../middlewares/adminValidation';
 import authValidation from '../../middlewares/authValidation';
 import schoolValidation from '../../middlewares/schoolValidation';
+import upload from '../../multerConfig';
 
 const { validateParams } = schoolValidation;
 const { verifyAdmin } = adminValidation;
@@ -14,7 +15,7 @@ const { validateSignup, validateLogin } = authValidation;
 const schoolRouter = express.Router();
 
 //Auth school routes
-schoolRouter.post('/signup', validateSignup, signup);
+schoolRouter.post('/signup', upload.any(), validateSignup,  signup);
 schoolRouter.post('/login', validateLogin, login);
 schoolRouter.post('/auth/forgotPassword', forgotPassword)
 
