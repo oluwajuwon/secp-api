@@ -13,7 +13,7 @@ class AuthController {
       
       try{
         const password = bcrypt.hashSync(rawPassword, 10);
-        const { cloudImage: logo } = await uploadImage(image);
+        const { cloudImage: logo } = image ? await uploadImage(image) : '';
         const newSchool = await saveSchool({ name, email, password, address, phone, logo });
         const emailSubject = 'Welcome to SECP';
 

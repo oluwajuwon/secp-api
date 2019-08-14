@@ -7,7 +7,7 @@ class AuthValidation {
       name, email, password, address, phone,
     } = this.trimSignupFields(request.body);
 
-    let errors = await this.isRequestParametersValid(name, email, password, phone);
+    let errors = await this.isRequestParametersValid(name, email, password, phone, image);
 
     if (errors.length > 0) {
       return response.status(400).json({ status: 'Error', errors });
@@ -44,7 +44,7 @@ class AuthValidation {
     return { name, email, password, address, phone, logo };
   }
 
-  isRequestParametersValid = async (name, email, password, phone) => {
+  isRequestParametersValid = async (name, email, password, phone, image) => {
     const userCount = await findSchool(email);
     let errors = [];
 
@@ -66,9 +66,19 @@ class AuthValidation {
     if (phone === '' || phone === undefined) {
         errors.push('Phone number is required')
     }
+    if (image && !this.isImageValid(image)) {
+      errors.push('please add a valid image')
+    }
 
     return errors;
  }
+
+  isImageValid = (image) => {
+    if(image.mimetype === 'image/jpeg' || image.mimetype === 'image/png' || image.mimetype === 'image/jpg' || image.mimetype === 'image/JPEG') {
+      return true;
+    }
+    return false;
+  }
 
   isEmailValid = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
