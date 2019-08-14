@@ -2,8 +2,9 @@ import { findSchool } from '../repository/schoolRepository';
 
 class AuthValidation {
   validateSignup = async (request, response, next) => {
+    const image = request.files[0];
     const {
-      name, email, password, address, phone, logo
+      name, email, password, address, phone,
     } = this.trimSignupFields(request.body);
 
     let errors = await this.isRequestParametersValid(name, email, password, phone);
@@ -12,7 +13,7 @@ class AuthValidation {
       return response.status(400).json({ status: 'Error', errors });
     }
 
-    request.body = { name, email, password, address, phone, logo };
+    request.body = { name, email, password, address, phone, image };
     return next();
   }
 

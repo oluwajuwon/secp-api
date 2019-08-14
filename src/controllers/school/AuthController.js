@@ -3,15 +3,17 @@ import sendMail from '../../helpers/sendMail';
 import { welcomeMail, welcomeMailText } from '../../helpers/mailContent';
 import { saveSchool, findSchool } from '../../repository/schoolRepository';
 import { generateToken } from '../../middlewares/jwtHandler';
+import { uploadFile } from '../../cloudinaryConfig';
 
 class AuthController {
   static async signup (request, response){
     const {
-      name, email, password: rawPassword, address, phone, logo,
+      name, email, password: rawPassword, address, phone, image,
       } = request.body;
       
       try{
         const password = bcrypt.hashSync(rawPassword, 10);
+        const { cloudImage: logo } = await uploadImage(image);
         const newSchool = await saveSchool({ name, email, password, address, phone, logo });
         const emailSubject = 'Welcome to SECP';
 
@@ -104,7 +106,28 @@ class AuthController {
 
     await sendMail(email, emailSubject, resetMail);
   }
+
+  static async uploadImage (image) {
+    var imageDetails = {
+      imageName: image.originalname,
+      cloudImage: image.path,
+      imageId: ''
+    }
+
+    const uploadedImage = await uploadFile(imageDetails.cloudImage);
+
+    var imageDetails = {
+      imageName: image.originalname,
+      cloudImage: uploadedImage.url,
+      imageId: uploadedImage.id,
+    }
+    return imageDetails;
+  }
 }
 
-const { signup, login, getUserToken, formatDetails, forgotPassword, sendPasswordResetEmail } = AuthController;
-export { signup, login, getUserToken, formatDetails, forgotPassword, sendPasswordResetEmail };
+const {
+  signup, login, getUserToken, formatDetails, forgotPassword, sendPasswordResetEmail, uploadImage,
+} = AuthController;
+export {
+  signup, login, getUserToken, formatDetails, forgotPassword, sendPasswordResetEmail, uploadImage,
+};
