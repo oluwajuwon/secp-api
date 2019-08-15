@@ -72,7 +72,7 @@ export default {
                 },
                 logo: {
                   required: false,
-                  type: 'string'
+                  type: 'string',
                 }
               }
             }
