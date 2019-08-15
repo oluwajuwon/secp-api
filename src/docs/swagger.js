@@ -73,6 +73,7 @@ export default {
                 logo: {
                   required: false,
                   type: 'string',
+                  format: 'binary',
                 }
               }
             }
