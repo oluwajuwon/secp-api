@@ -28,10 +28,11 @@ class SchoolRepository {
   static async updateSchool(id, email, name, address, phone, logo) {
     const updatedSchool = await School.update({ email, name, address, phone, logo }, 
       {
-        where: { id }
+        where: { id },
+        returning: true,
       });
 
-      return updatedSchool;
+      return updatedSchool[1];
   }
 
   static async verifySchoolByAdmin(verified, id) {
