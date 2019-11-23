@@ -55,8 +55,7 @@ class SchoolRepository {
   }
 
   static async addNewToken(schoolId, code) {
-    console.log(schoolId);
-    const schoolToken = await UserToken.create({ userId: schoolId, code });
+    const schoolToken = await UserToken.create({ schoolId, code });
     return schoolToken;
   }
 
@@ -70,7 +69,7 @@ class SchoolRepository {
 
   static async findTokenByUserId(schoolId) {
     const foundToken = await UserToken.findOne({
-      where: {userId: schoolId}
+      where: { schoolId }
     });
     return foundToken;
   }

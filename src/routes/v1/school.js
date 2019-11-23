@@ -1,6 +1,6 @@
 import express from 'express';
 import { signup, login, forgotPassword } from '../../controllers/school/AuthController';
-import { update } from '../../controllers/school/SchoolController';
+import { update, confirmPasswordResetCode } from '../../controllers/school/SchoolController';
 import { getSchools } from '../../controllers/admin/AdminController';
 import { verifyToken } from '../../middlewares/jwtHandler';
 import adminValidation from '../../middlewares/adminValidation';
@@ -18,6 +18,7 @@ const schoolRouter = express.Router();
 schoolRouter.post('/signup', upload.any(), validateSignup,  signup);
 schoolRouter.post('/login', validateLogin, login);
 schoolRouter.post('/auth/forgotPassword', forgotPassword)
+schoolRouter.post('/auth/confirm-code', confirmPasswordResetCode)
 
 schoolRouter.put('/:schoolId', upload.any(), verifyToken, validateParams, update)
 

@@ -1,4 +1,4 @@
-import { updateSchool } from '../../repository/schoolRepository';
+import { updateSchool, findSchool, findTokenByUserId } from '../../repository/schoolRepository';
 import { uploadFile } from '../../cloudinaryConfig';
 
 class SchoolController {
@@ -51,7 +51,29 @@ class SchoolController {
     }
     return imageDetails;
   }
+
+  static async confirmPasswordResetCode (request, response) {
+    const { email, resetCode } = request.body;
+
+    try {
+      const foundSchool = await findSchool(email);
+      if(!foundSchool) {
+        return response.status(400).json({ message: 'school does not exist' });
+      }
+
+      const foundResetCode = await findTokenByUserId(foundSchool.id);
+
+      if(foundResetCode.code !== resetCode) {
+        return response.status(400).json({ message: 'invalid code' });
+      }
+
+      return response.status(200).json({ message: 'success' });
+
+    } catch (error) {
+      response.status(500).json({ message: error.message });
+    }
+  }
 }
 
-const { update, sortUpdateSchoolData, uploadImage } = SchoolController;
-export { update, sortUpdateSchoolData, uploadImage };
+const { update, sortUpdateSchoolData, uploadImage, confirmPasswordResetCode } = SchoolController;
+export { update, sortUpdateSchoolData, uploadImage, confirmPasswordResetCode };
