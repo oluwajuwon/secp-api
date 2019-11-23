@@ -1,9 +1,12 @@
 import { updateSchool } from '../../repository/schoolRepository';
+import { uploadFile } from '../../cloudinaryConfig';
 
 class SchoolController {
   static async update(request, response) {
 
-    const { schoolId, email, name, address, phone, logo } = await sortUpdateSchoolData(request);
+    const image = request.files[0];
+    const { schoolId, email, name, address, phone} = await sortUpdateSchoolData(request);
+    const { cloudImage: logo } = image ? await uploadImage(image) : '';
 
     try{
       const updatedSchool = await updateSchool(schoolId,
@@ -26,12 +29,27 @@ class SchoolController {
     const email = request.body.email || foundSchool.email;
     const address = request.body.address || foundSchool.address;
     const phone = request.body.phone || foundSchool.phone;
-    const logo = request.body.logo || foundSchool.logo;
 
-    return { schoolId, email, name, address, phone, logo };
+    return { schoolId, email, name, address, phone };
   }
 
+  static async uploadImage (image) {
+    var imageDetails = {
+      imageName: image.originalname,
+      cloudImage: image.path,
+      imageId: ''
+    }
+
+    const uploadedImage = await uploadFile(imageDetails.cloudImage);
+
+    var imageDetails = {
+      imageName: image.originalname,
+      cloudImage: uploadedImage.url,
+      imageId: uploadedImage.id,
+    }
+    return imageDetails;
+  }
 }
 
-const { update, sortUpdateSchoolData } = SchoolController;
-export { update, sortUpdateSchoolData };
+const { update, sortUpdateSchoolData, uploadImage } = SchoolController;
+export { update, sortUpdateSchoolData, uploadImage };
