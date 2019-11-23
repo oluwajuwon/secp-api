@@ -34,6 +34,15 @@ class SchoolRepository {
       return updatedSchool;
   }
 
+  static async verifySchoolByAdmin(verified, id) {
+    const verifiedSchool = await School.update({ verified }, 
+      {
+        where: { id }
+      });
+
+      return verifiedSchool;
+  }
+
   static async getAllSchools() {
     const allSchools = await School.findAll({
       attributes: {
@@ -68,8 +77,8 @@ class SchoolRepository {
 }
 
 const {
-  saveSchool, findSchool, findSchoolById, updateSchool, getAllSchools, addNewToken, updateSchoolToken, findTokenByUserId
+  saveSchool, findSchool, findSchoolById, updateSchool, getAllSchools, addNewToken, updateSchoolToken, findTokenByUserId, verifySchoolByAdmin
 } = SchoolRepository;
 export {
-  saveSchool, findSchool, findSchoolById, updateSchool, getAllSchools, addNewToken, updateSchoolToken, findTokenByUserId
+  saveSchool, findSchool, findSchoolById, updateSchool, getAllSchools, addNewToken, updateSchoolToken, findTokenByUserId, verifySchoolByAdmin
 };

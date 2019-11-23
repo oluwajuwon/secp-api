@@ -19,7 +19,7 @@ schoolRouter.post('/signup', upload.any(), validateSignup,  signup);
 schoolRouter.post('/login', validateLogin, login);
 schoolRouter.post('/auth/forgotPassword', forgotPassword)
 
-schoolRouter.put('/:schoolId', verifyToken, validateParams, update)
+schoolRouter.put('/:schoolId', upload.any(), verifyToken, validateParams, update)
 
 schoolRouter.get('/', verifyToken, verifyAdmin, getSchools);
 
