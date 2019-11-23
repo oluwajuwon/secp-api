@@ -9,12 +9,14 @@ class SchoolController {
     const { cloudImage: logo } = image ? await uploadImage(image) : '';
 
     try{
-      const updatedSchool = await updateSchool(schoolId,
-        email.trim(), name.trim(), address.trim(), phone.trim(), logo.trim(),
+      const schoolUpdated = await updateSchool(schoolId,
+        email.trim(), name.trim(), address.trim(), phone.trim(), logo,
         );
 
-      if(updatedSchool){
-        response.status(200).json({ message: 'successfully updated your details' });
+      if(schoolUpdated){
+        const{ id, name, email, address, phone, logo, verified  } = schoolUpdated[0];
+        const updatedSchool = { id, name, email, address, phone, logo, verified };
+        response.status(200).json({ message: 'successfully updated your details', updatedSchool });
       }
     } catch(error) {
       response.status(500).json({ error: error.message });
