@@ -1,6 +1,6 @@
 import models from '../db/models';
 
-const { School } = models;
+const { School, UserToken } = models;
 
 class SchoolRepository {
   static async saveSchool(...args) {
@@ -44,11 +44,32 @@ class SchoolRepository {
     return allSchools
   }
 
+  static async addNewToken(schoolId, code) {
+    console.log(schoolId);
+    const schoolToken = await UserToken.create({ userId: schoolId, code });
+    return schoolToken;
+  }
+
+  static async updateSchoolToken(tokenId, code) {
+    const updatedSchoolToken = await UserToken.update({ code },
+      {
+        where: { id: tokenId }
+      });
+    return updatedSchoolToken;
+  }
+
+  static async findTokenByUserId(schoolId) {
+    const foundToken = await UserToken.findOne({
+      where: {userId: schoolId}
+    });
+    return foundToken;
+  }
+
 }
 
 const {
-  saveSchool, findSchool, findSchoolById, updateSchool, getAllSchools,
+  saveSchool, findSchool, findSchoolById, updateSchool, getAllSchools, addNewToken, updateSchoolToken, findTokenByUserId
 } = SchoolRepository;
 export {
-  saveSchool, findSchool, findSchoolById, updateSchool, getAllSchools,
+  saveSchool, findSchool, findSchoolById, updateSchool, getAllSchools, addNewToken, updateSchoolToken, findTokenByUserId
 };
