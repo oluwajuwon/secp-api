@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import sendMail from '../../helpers/sendMail';
 import { welcomeMail, welcomeMailText } from '../../helpers/mailContent';
-import { saveSchool, findSchool, addNewToken, updateSchoolToken, findTokenByUserId } from '../../repository/schoolRepository';
+import { saveSchool, findSchool, addNewToken, updateSchoolToken, findTokenByUserId, resetSchoolPassword } from '../../repository/schoolRepository';
 
 import { generateToken } from '../../middlewares/jwtHandler';
 import { uploadFile } from '../../cloudinaryConfig';
@@ -110,6 +110,19 @@ class AuthController {
     await sendMail(email, emailSubject, resetMail);
   }
 
+  static async resetPassword (request, response) {
+    const { password: rawPassword, email } = request.body;
+    
+    try {
+      const password = bcrypt.hashSync(rawPassword, 10);
+      const updatedSchool = await resetSchoolPassword(email, password);
+
+      if(updatedSchool) return response.status(200).json({ status: 'success'});
+    } catch (error) {
+      response.status(500).json({ message: error.message });
+    }
+  }
+
   static async uploadImage (image) {
     var imageDetails = {
       imageName: image.originalname,
@@ -129,8 +142,8 @@ class AuthController {
 }
 
 const {
-  signup, login, getUserToken, formatDetails, forgotPassword, sendPasswordResetEmail, uploadImage,
+  signup, login, getUserToken, formatDetails, forgotPassword, sendPasswordResetEmail, uploadImage, resetPassword
 } = AuthController;
 export {
-  signup, login, getUserToken, formatDetails, forgotPassword, sendPasswordResetEmail, uploadImage,
+  signup, login, getUserToken, formatDetails, forgotPassword, sendPasswordResetEmail, uploadImage, resetPassword
 };
