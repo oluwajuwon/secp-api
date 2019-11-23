@@ -44,6 +44,15 @@ class SchoolRepository {
       return verifiedSchool;
   }
 
+  static async resetSchoolPassword(email, password){
+    const updatedSchool = await School.update({ password }, 
+      {
+        where: { email }
+      });
+
+      return updatedSchool;
+  }
+
   static async getAllSchools() {
     const allSchools = await School.findAll({
       attributes: {
@@ -77,8 +86,10 @@ class SchoolRepository {
 }
 
 const {
-  saveSchool, findSchool, findSchoolById, updateSchool, getAllSchools, addNewToken, updateSchoolToken, findTokenByUserId, verifySchoolByAdmin
+  saveSchool, findSchool, findSchoolById, updateSchool, getAllSchools, addNewToken, updateSchoolToken, findTokenByUserId, verifySchoolByAdmin,
+  resetSchoolPassword
 } = SchoolRepository;
 export {
-  saveSchool, findSchool, findSchoolById, updateSchool, getAllSchools, addNewToken, updateSchoolToken, findTokenByUserId, verifySchoolByAdmin
+  saveSchool, findSchool, findSchoolById, updateSchool, getAllSchools, addNewToken, updateSchoolToken, findTokenByUserId, verifySchoolByAdmin,
+  resetSchoolPassword
 };

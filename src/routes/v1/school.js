@@ -1,5 +1,5 @@
 import express from 'express';
-import { signup, login, forgotPassword } from '../../controllers/school/AuthController';
+import { signup, login, forgotPassword, resetPassword } from '../../controllers/school/AuthController';
 import { update, confirmPasswordResetCode } from '../../controllers/school/SchoolController';
 import { getSchools } from '../../controllers/admin/AdminController';
 import { verifyToken } from '../../middlewares/jwtHandler';
@@ -19,6 +19,7 @@ schoolRouter.post('/signup', upload.any(), validateSignup,  signup);
 schoolRouter.post('/login', validateLogin, login);
 schoolRouter.post('/auth/forgotPassword', forgotPassword)
 schoolRouter.post('/auth/confirm-code', confirmPasswordResetCode)
+schoolRouter.put('/auth/reset-password', resetPassword)
 
 schoolRouter.put('/:schoolId', upload.any(), verifyToken, validateParams, update)
 
