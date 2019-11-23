@@ -1,9 +1,11 @@
 import bcrypt from 'bcrypt';
 import sendMail from '../../helpers/sendMail';
 import { welcomeMail, welcomeMailText } from '../../helpers/mailContent';
-import { saveSchool, findSchool } from '../../repository/schoolRepository';
+import { saveSchool, findSchool, addNewToken, updateSchoolToken, findTokenByUserId } from '../../repository/schoolRepository';
+
 import { generateToken } from '../../middlewares/jwtHandler';
 import { uploadFile } from '../../cloudinaryConfig';
+import { randomCodeGenerator } from '../../helpers/randomCodeGenerator';
 
 class AuthController {
   static async signup (request, response){
@@ -79,10 +81,15 @@ class AuthController {
     try {
       const foundSchool = await findSchool(email.trim());
       if(!foundSchool) {
-        return response.status(200).json({ message: 'Please check your email to reset your password' });
+        return response.status(400).json({ message: 'Please signup' }); //modify this to send an error message instead
       }
 
-      await sendPasswordResetEmail(foundSchool);
+      const code = randomCodeGenerator();
+      const foundToken = await findTokenByUserId(foundSchool.id)
+
+      if (!foundToken) await addNewToken(foundSchool.id, code);
+      if (foundToken) await updateSchoolToken(foundToken.id, code);
+      await sendPasswordResetEmail(foundSchool, code);
       return response.status(200).json({ message: 'Please check your email to reset your password' });
 
     } catch (error){
@@ -90,18 +97,14 @@ class AuthController {
     }
   }
 
-  static async sendPasswordResetEmail (foundSchool) {
-    const { email, id } = foundSchool;
-    const payload = { id, email };
-    const time = { expiresIn: '24hr' };
-    const userToken = generateToken({ payload }, time);
+  static async sendPasswordResetEmail (foundSchool, code) {
+    const { email } = foundSchool;
     const emailSubject = 'Password Reset on SECP';
-    const hostUrl = process.env.HOST_URL;
     const resetMail = `
     <div>
       <h2>Reset your password</h2>
-      <p>please click the link below to reset your password. <br> NOTE: this link expires in a day</p>
-      <a href="${hostUrl}/${userToken}">Click here to reset your password</a>
+      <p>please use the code below to reset your password.</p>
+      <p>Code: <b>${code}</b></p>
     </div>`;
 
     await sendMail(email, emailSubject, resetMail);

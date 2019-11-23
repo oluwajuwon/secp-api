@@ -10,7 +10,7 @@ class AuthValidation {
     let errors = await this.isRequestParametersValid(name, email, password, phone, image);
 
     if (errors.length > 0) {
-      return response.status(400).json({ status: 'Error', errors });
+       return response.status(400).json({ status: 'Error', errors });
     }
 
     request.body = { name, email, password, address, phone, image };
@@ -18,11 +18,10 @@ class AuthValidation {
   }
 
   validateLogin = async (request, response, next) => {
+    console.log(request, 'herer');
     const { email, password } = this.trimSignupFields(request.body);
 
-    let isValidEmail = await this.isEmailValid(email);
-
-    if (!isValidEmail) {
+    if (this.isEmailValid(email) === false) {
       return response.status(400).json({ message: 'Please enter a valid email' });
     }
     if (password === '' || password === undefined) {
