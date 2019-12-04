@@ -18,7 +18,7 @@ class AuthValidation {
   }
 
   validateLogin = async (request, response, next) => {
-    console.log(request, 'herer');
+
     const { email, password } = this.trimSignupFields(request.body);
 
     if (this.isEmailValid(email) === false) {
