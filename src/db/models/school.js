@@ -42,6 +42,8 @@ module.exports = (sequelize, DataTypes) => {
     School.hasMany(models.Student, { foreignKey: 'schoolId', as: 'student' });
     School.hasMany(models.Payment, { foreignKey: 'schoolId', as: 'payment' });
     School.hasOne(models.UserToken, { foreignKey: 'schoolId', as: 'userToken'});
+    School.hasOne(models.Wallet, { foreignKey: 'schoolId', as: 'wallet'});
+    School.hasMany(models.Transaction, { foreignKey: 'schoolId', as: 'transaction'});
   };
   return School;
 };
