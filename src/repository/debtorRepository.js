@@ -1,6 +1,8 @@
 import models from '../db/models';
+import Sequelize from 'sequelize';
 
 const { Student } = models;
+const Op = Sequelize.Op
 
 class DebtorRepository {
   static async saveDebtor(...args) {
@@ -18,12 +20,12 @@ class DebtorRepository {
   }
 
   static async updateDebtor(uuid, paymentStatus) {
-    const updatedDebtor = await Student.update({ paymentStatus }, 
+    const updatedDebtor = await Student.update({ paymentStatus },
       {
         where: { uuid }
       });
 
-      return updatedDebtor;
+    return updatedDebtor;
   }
 
   static async getDebtorsBySchoolId(schoolId) {
@@ -37,8 +39,9 @@ class DebtorRepository {
     return allDebtors;
   }
 
-  static async getDebtors(){
+  static async getDebtors() {
     const allDebtors = await Student.findAll({
+      where: { paymentStatus: 'No' },
       attributes: {
         exclude: ['id', 'createdAt', 'updatedAt']
       }
@@ -46,11 +49,35 @@ class DebtorRepository {
 
     return allDebtors;
   }
+
+  static async searchDebtor(firstName, lastName, middleName, dateOfBirth) {
+    const searchedDebtor = await Student.findAll({
+      where: {
+
+        [Op.and]: [
+          {
+            firstName: firstName
+          },
+          {
+            lastName: lastName
+          },
+          {
+            dateOfBirth: dateOfBirth
+          },
+          {
+            middleName: { [Op.like]: `%${middleName}%` }
+          }
+        ]
+      }
+    });
+
+    return searchedDebtor;
+  }
 }
 
 const {
-  saveDebtor, findDebtor, updateDebtor, getDebtorsBySchoolId, getDebtors,
+  saveDebtor, findDebtor, updateDebtor, getDebtorsBySchoolId, getDebtors, searchDebtor
 } = DebtorRepository;
 export {
-  saveDebtor, findDebtor, updateDebtor, getDebtorsBySchoolId, getDebtors,
+  saveDebtor, findDebtor, updateDebtor, getDebtorsBySchoolId, getDebtors, searchDebtor
 };

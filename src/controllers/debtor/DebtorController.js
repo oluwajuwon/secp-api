@@ -1,5 +1,5 @@
 import {
-  saveDebtor, updateDebtor, getDebtorsBySchoolId, getDebtors,
+  saveDebtor, updateDebtor, getDebtorsBySchoolId, getDebtors, searchDebtor
 } from '../../repository/debtorRepository';
 
 class DebtorController {
@@ -73,7 +73,21 @@ class DebtorController {
 
   }
 
+  static async findDebtor (request, response) {
+    const  { firstName, lastName, middleName, dateOfBirth } = request.body;
+
+    try {
+      const searchedDebtor = await searchDebtor(firstName, lastName, middleName, dateOfBirth);
+
+      if(searchedDebtor) {
+        response.status(200).json({ message: 'successfully retrieved debtor', searchedDebtor })
+      }
+    } catch (error) {
+      response.status(500).json({ message: error.message });
+    }
+  }
+
 }
 
-const { addNew, updateDebtorInfo, getAllDebtors } = DebtorController;
-export { addNew, updateDebtorInfo, getAllDebtors };
+const { addNew, updateDebtorInfo, getAllDebtors, findDebtor } = DebtorController;
+export { addNew, updateDebtorInfo, getAllDebtors, findDebtor };
