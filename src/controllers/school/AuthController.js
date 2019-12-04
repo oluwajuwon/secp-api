@@ -81,7 +81,7 @@ class AuthController {
     try {
       const foundSchool = await findSchool(email.trim());
       if(!foundSchool) {
-        return response.status(400).json({ message: 'Please signup' }); //modify this to send an error message instead
+        return response.status(400).json({ message: 'Please signup' });
       }
 
       const code = randomCodeGenerator();
