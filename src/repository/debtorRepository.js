@@ -30,7 +30,16 @@ class DebtorRepository {
 
   static async getDebtorsBySchoolId(schoolId) {
     const allDebtors = await Student.findAll({
-      where: { schoolId },
+      where: { 
+        [Op.and]: [
+          {
+            schoolId 
+          },
+          {
+            paymentStatus: 'no'
+          }
+        ]
+      },
       attributes: {
         exclude: ['id', 'createdAt', 'updatedAt']
       }
@@ -41,7 +50,7 @@ class DebtorRepository {
 
   static async getDebtors() {
     const allDebtors = await Student.findAll({
-      where: { paymentStatus: 'No' },
+      where: { paymentStatus: 'no' },
       attributes: {
         exclude: ['id', 'createdAt', 'updatedAt']
       }

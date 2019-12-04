@@ -91,7 +91,7 @@ export default {
               },
               example: {
                 status: 'success',
-                }
+              }
             }
           },
           400: {
@@ -235,7 +235,7 @@ export default {
               },
               example: {
                 message: 'successfully updated your details',
-                }
+              }
             }
           },
           400: {
@@ -279,6 +279,110 @@ export default {
               },
               example: {
                 message: 'Please check your email to reset your password',
+              }
+            }
+          },
+          500: {
+            description: 'Other exceptions'
+          }
+        }
+      }
+    },
+    '/school/auth/confirm-code': {
+      post: {
+        tags: ['schools'],
+        summary: 'Route for schools to confirm the code sent to their emails when they forget their passwords',
+        description: '',
+        parameters: [
+          {
+            name: 'School',
+            in: 'body',
+            description: 'School object to verify code sent via email for a password change',
+            schema: {
+              properties: {
+                email: {
+                  required: true,
+                  type: 'string'
+                },
+                resetCode: {
+                  required: true,
+                  type: 'string'
+                }
+              }
+            }
+          }
+        ],
+        produces: ['application/json'],
+        responses: {
+          200: {
+            description: 'code confirmed successfully',
+            schema: {
+              properties: {
+                message: {
+                  type: 'string'
+                }
+              },
+              example: {
+                message: 'success',
+              }
+            }
+          },
+          400: {
+            description: 'Bad request',
+            schema: {
+              properties: {
+                message: {
+                  type: 'string'
+                }
+              },
+              example: {
+                message: 'invalid code supplied',
+              },
+              message: 'school does not exist',
+            }
+          }
+        },
+        500: {
+          description: 'Other exceptions'
+        }
+      }
+    },
+    '/school/auth/reset-password': {
+      post: {
+        tags: ['schools'],
+        summary: 'Route for schools to reset their passwords',
+        description: '',
+        parameters: [
+          {
+            name: 'School',
+            in: 'body',
+            description: 'School object to change password',
+            schema: {
+              properties: {
+                email: {
+                  required: true,
+                  type: 'string'
+                },
+                rawPassword: {
+                  required: true,
+                  type: 'string'
+                }
+              }
+            }
+          }
+        ],
+        produces: ['application/json'],
+        responses: {
+          200: {
+            description: 'reset password successfully',
+            schema: {
+              properties: {
+                message: {
+                  type: 'string'
+                }
+              },
+              example: {
+                message: 'success',
                 }
             }
           },
@@ -367,7 +471,7 @@ export default {
               },
               example: {
                 status: 'success',
-                }
+              }
             }
           },
           400: {
@@ -420,7 +524,7 @@ export default {
               },
               example: {
                 message: `successfully updated the debtor's account`,
-                }
+              }
             }
           },
           400: {
@@ -490,6 +594,89 @@ export default {
         }
       }
     },
+    '/search/debtor': {
+      get: {
+        tags: ['debtors'],
+        summary: 'Search for debtors based on parameters',
+        description: '',
+        parameters: [
+          {
+            name: 'token',
+            in: 'header',
+            required: true,
+            type: 'string',
+            description: ''
+          },
+          {
+            name: 'School',
+            in: 'body',
+            description: 'Search object search for debtor',
+            schema: {
+              properties: {
+                firstName: {
+                  required: true,
+                  type: 'string'
+                },
+                lastName: {
+                  required: true,
+                  type: 'string'
+                },
+                middleName: {
+                  required: true,
+                  type: 'string'
+                },
+                dateOfBirth: {
+                  required: true,
+                  type: 'date'
+                }
+              }
+            }
+          }
+        ],
+        produces: ['application/json'],
+        responses: {
+          200: {
+            description: 'successfully retrieved debtor',
+            schema: {
+              properties: {
+                status: {
+                  type: 'string'
+                },
+                searchedDebtor: {
+                  type: 'array'
+                },
+              },
+              example: {
+                status: 'successfully retrieved debtor',
+                searchedDebtor: [
+                  {
+                    uuid: 'ververver9venvu9er',
+                    schoolId: 2,
+                    firstName: 'ajalinkoko',
+                    lastName: 'man',
+                    middleName: 'sureboy',
+                    dateOfBirth: '2019-07-20 00:00:00.000 +00:00',
+                    gender: 'female',
+                    schoolName: 'limpopo',
+                    term: '2nd',
+                    year: '2017',
+                    classOwed: 'ss3',
+                    amount: '20000',
+                    paymentStatus: 'no',
+                  }
+                ],
+              }
+            }
+          },
+          400: {
+            description: 'Validation exception'
+          },
+          500: {
+            description: 'Other exceptions'
+          }
+        }
+      }
+    },
     '/admin/signup': {
       post: {
         tags: ['admin'],
@@ -530,7 +717,7 @@ export default {
               },
               example: {
                 status: 'success',
-                }
+              }
             }
           },
           400: {

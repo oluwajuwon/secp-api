@@ -64,7 +64,7 @@ class SchoolController {
       const foundResetCode = await findTokenByUserId(foundSchool.id);
 
       if(foundResetCode.code !== resetCode) {
-        return response.status(400).json({ message: 'invalid code' });
+        return response.status(400).json({ message: 'invalid code supplied' });
       }
 
       return response.status(200).json({ message: 'success' });
