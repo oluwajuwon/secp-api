@@ -6,6 +6,7 @@ import { createNewSchoolWallet } from '../wallet/WalletController';
 import { generateToken } from '../../middlewares/jwtHandler';
 import { uploadFile } from '../../cloudinaryConfig';
 import { randomCodeGenerator } from '../../helpers/randomCodeGenerator';
+import { createTransaction } from '../../controllers/wallet/TransactionController';
 
 class AuthController {
   static async signup (request, response){
@@ -22,6 +23,7 @@ class AuthController {
         if(newSchool){
           sendMail(email, emailSubject, welcomeMail, welcomeMailText);
           await createNewSchoolWallet(newSchool.id);
+          await createTransaction(newSchool.id, 'credit', 'initialize', 0);
           return response.status(201).json({ status: 'success'});
         }
       } catch(error){
@@ -68,9 +70,9 @@ class AuthController {
   }
 
   static async formatDetails(school) {
-    const { id,name, email, address, phone,logo } = school;
+    const { id,name, email, address, phone,logo, wallet, transaction } = school;
     const schoolDetails = {
-      id,name, email, address, phone,logo
+      id,name, email, address, phone,logo, wallet, transactions:transaction
     }
 
     return schoolDetails;

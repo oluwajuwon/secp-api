@@ -141,7 +141,9 @@ export default {
                   type: 'string'
                 },
                 schoolDetails: {
-                  type: 'object'
+                  type: 'object',
+                  wallet: 'object',
+                  transactions: 'array',
                 },
                 token: {
                   type: 'string'

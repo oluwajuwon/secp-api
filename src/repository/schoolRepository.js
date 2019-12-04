@@ -1,6 +1,6 @@
 import models from '../db/models';
 
-const { School, UserToken } = models;
+const { School, UserToken, Wallet, Transaction } = models;
 
 class SchoolRepository {
   static async saveSchool(...args) {
@@ -12,6 +12,17 @@ class SchoolRepository {
   static async findSchool(email) {
     const foundSchool = await School.findOne({
       where: { email },
+      include: [
+        {
+          model: Wallet,
+          as: 'wallet',
+          attributes: ['id', 'currentBalance']
+        },
+        {
+          model: Transaction,
+          as: 'transaction',
+        }
+      ],
     });
 
     return foundSchool;
