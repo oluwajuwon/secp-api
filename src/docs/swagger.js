@@ -365,7 +365,7 @@ export default {
                   required: true,
                   type: 'string'
                 },
-                rawPassword: {
+                password: {
                   required: true,
                   type: 'string'
                 }
