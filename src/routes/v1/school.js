@@ -17,7 +17,7 @@ const schoolRouter = express.Router();
 //Auth school routes
 schoolRouter.post('/signup', upload.any(), validateSignup,  signup);
 schoolRouter.post('/login', validateLogin, login);
-schoolRouter.post('/auth/forgotPassword', forgotPassword)
+schoolRouter.post('/auth/forgot-password', forgotPassword)
 schoolRouter.post('/auth/confirm-code', confirmPasswordResetCode)
 schoolRouter.put('/auth/reset-password', resetPassword)
 

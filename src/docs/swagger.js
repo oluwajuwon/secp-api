@@ -249,7 +249,7 @@ export default {
         }
       }
     },
-    '/school/auth/forgotPassword': {
+    '/school/auth/forgot-password': {
       post: {
         tags: ['schools'],
         summary: 'Route for schools that forget their passwords',
