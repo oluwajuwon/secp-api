@@ -350,7 +350,7 @@ export default {
       }
     },
     '/school/auth/reset-password': {
-      post: {
+      put: {
         tags: ['schools'],
         summary: 'Route for schools to reset their passwords',
         description: '',
