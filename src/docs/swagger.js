@@ -597,7 +597,7 @@ export default {
       }
     },
     '/search/debtor': {
-      get: {
+      post: {
         tags: ['debtors'],
         summary: 'Search for debtors based on parameters',
         description: '',
