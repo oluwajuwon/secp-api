@@ -233,10 +233,20 @@ export default {
               properties: {
                 message: {
                   type: 'string'
+                },
+                schoolDetails: {
+                  type: 'object'
                 }
               },
               example: {
                 message: 'successfully updated your details',
+                schoolDetails: {
+                  id: 1,
+                  wallet: {
+                    currentBalance: 0
+                  },
+                  transactions: [],
+                },
               }
             }
           },
