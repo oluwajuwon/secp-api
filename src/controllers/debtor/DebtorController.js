@@ -79,9 +79,11 @@ class DebtorController {
     try {
       const searchedDebtor = await searchDebtor(firstName, lastName, middleName, dateOfBirth);
 
-      if(searchedDebtor) {
-        response.status(200).json({ message: 'successfully retrieved debtor', searchedDebtor })
+      if(searchedDebtor && searchedDebtor.length < 1 ) {
+        return response.status(404).json({ message: 'sorry, no debtors found' })
       }
+      return response.status(200).json({ message: 'successfully retrieved debtor', searchedDebtor })
+
     } catch (error) {
       response.status(500).json({ message: error.message });
     }
