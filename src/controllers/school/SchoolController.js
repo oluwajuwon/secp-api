@@ -1,5 +1,6 @@
 import { updateSchool, findSchool, findTokenByUserId } from '../../repository/schoolRepository';
 import { uploadFile } from '../../cloudinaryConfig';
+import { formatDetails } from './AuthController';
 
 class SchoolController {
   static async update(request, response) {
@@ -14,9 +15,11 @@ class SchoolController {
         );
 
       if(schoolUpdated){
-        const{ id, name, email, address, phone, logo, verified  } = schoolUpdated[0];
-        const updatedSchool = { id, name, email, address, phone, logo, verified };
-        response.status(200).json({ message: 'successfully updated your details', updatedSchool });
+        const updatedSchool = await findSchool(schoolUpdated[0].email);
+        if(updatedSchool){
+          const schoolDetails = await formatDetails(updatedSchool);
+          response.status(200).json({ message: 'successfully updated your details', schoolDetails });
+        }
       }
     } catch(error) {
       response.status(500).json({ error: error.message });
