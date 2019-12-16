@@ -1,6 +1,11 @@
+import dotenv from 'dotenv';
 import {
   saveDebtor, updateDebtor, getDebtorsBySchoolId, getDebtors, searchDebtor
 } from '../../repository/debtorRepository';
+import { updateWalletBalance } from '../../helpers/wallet/WalletHelper';
+import { createTransaction } from '../../helpers/wallet/TransactionHelper';
+
+dotenv.config();
 
 class DebtorController {
   static async addNew (request, response) {
@@ -75,10 +80,13 @@ class DebtorController {
 
   static async findDebtor (request, response) {
     const  { firstName, lastName, middleName, dateOfBirth } = request.body;
-
+    const { payload: { id } } = request.userData
     try {
       const searchedDebtor = await searchDebtor(firstName, lastName, middleName, dateOfBirth);
-
+      if(searchedDebtor) {
+        await updateWalletBalance(id, process.env.SEARCH_COST, 'DEBIT');
+        await createTransaction(id, 'debit', 'search', process.env.SEARCH_COST );
+      }
       if(searchedDebtor && searchedDebtor.length < 1 ) {
         return response.status(404).json({ message: 'sorry, no debtors found' })
       }

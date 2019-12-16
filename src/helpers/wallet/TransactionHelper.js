@@ -12,7 +12,7 @@ const transactionDetails = {
   SEARCH: 'search charges',
 };
 
-class TransactionController {
+class TransactionHelper {
 
   static async createTransaction(schoolId, txType, txDetails, amount ) {
 
@@ -24,5 +24,5 @@ class TransactionController {
   }
 }
 
-const { createTransaction } = TransactionController;
+const { createTransaction } = TransactionHelper;
 export { createTransaction };
