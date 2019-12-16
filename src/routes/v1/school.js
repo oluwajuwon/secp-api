@@ -6,6 +6,7 @@ import { verifyToken } from '../../middlewares/jwtHandler';
 import adminValidation from '../../middlewares/adminValidation';
 import authValidation from '../../middlewares/authValidation';
 import schoolValidation from '../../middlewares/schoolValidation';
+import { fundWallet } from '../../controllers/school/WalletController';
 import upload from '../../multerConfig';
 
 const { validateParams } = schoolValidation;
@@ -23,6 +24,7 @@ schoolRouter.put('/auth/reset-password', resetPassword)
 
 schoolRouter.put('/:schoolId', upload.any(), verifyToken, validateParams, update)
 
+schoolRouter.post('/fund-wallet', verifyToken, fundWallet);
 schoolRouter.get('/', verifyToken, verifyAdmin, getSchools);
 
 export default schoolRouter;

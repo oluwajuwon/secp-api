@@ -9,15 +9,20 @@ class WalletHelper {
   static async updateWalletBalance (schoolId, amount, operation) {
     switch (operation){
       case 'DEBIT':
-          _debitWallet(schoolId, amount);
+          return _debitWallet(schoolId, amount);
       default: 
-          _creditWallet(schoolId, amount);
+          return _creditWallet(schoolId, amount);
     }
   }
 
   static async _creditWallet(schoolId, amount) {
     try {
-
+      const foundWallet = await find(schoolId);
+      if(foundWallet){
+        const newBalance = foundWallet.currentBalance + amount;
+        const updatedBalance = await updateWallet(schoolId, newBalance);
+        return updatedBalance
+      }
     } catch(error) {
       
     }
@@ -28,7 +33,8 @@ class WalletHelper {
         const foundWallet = await find(schoolId);
         if(foundWallet){
           const newBalance = foundWallet.currentBalance - amount;
-          await updateWallet(schoolId, newBalance);
+          const updatedBalance = await updateWallet(schoolId, newBalance);
+          return updatedBalance
         }
     } catch(error) {
       throw new Error `${error.message}`;

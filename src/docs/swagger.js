@@ -404,6 +404,77 @@ export default {
         }
       }
     },
+    '/school/fund-wallet': {
+      post: {
+        tags: ['schools'],
+        summary: 'Fund wallet of a school',
+        description: '',
+        parameters: [
+          {
+            name: 'token',
+            in: 'header',
+            required: true,
+            type: 'string',
+            description: ''
+          },
+          {
+            name: 'School',
+            in: 'body',
+            description: 'Funding object to fund wallet',
+            schema: {
+              properties: {
+                amount: {
+                  required: true,
+                  type: 'string'
+                },
+                reference: {
+                  required: true,
+                  type: 'string'
+                },
+                status: {
+                  required: true,
+                  type: 'string'
+                }
+              }
+            }
+          }
+        ],
+        produces: ['application/json'],
+        responses: {
+          200: {
+            description: 'successfully funded wallet',
+            schema: {
+              properties: {
+                status: {
+                  type: 'string'
+                },
+                updatedBalance: {
+                  type: 'object'
+                },
+              },
+              example: {
+                status: 'wallet funded successfully',
+                updatedBalance: [
+                  {
+                    id: 1,
+                    schoolId: 2,
+                    currentBalance: 20,
+                    createdAt: '2019-12-04T16:12:06.546Z',
+                    updatedAt: '2019-12-16T21:20:29.740Z',
+                  }
+                ],
+              }
+            }
+          },
+          400: {
+            description: 'Validation exception'
+          },
+          500: {
+            description: 'Other exceptions'
+          }
+        }
+      }
+    },
     '/debtor': {
       post: {
         tags: ['debtors'],
