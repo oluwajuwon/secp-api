@@ -11,7 +11,25 @@ class WalletRepository {
 
     return newSchoolWallet;
   }
+
+  static async find(schoolId) {
+    const foundWallet = await Wallet.findOne({
+      where: { schoolId },
+    });
+
+    return foundWallet;
+  }
+
+  static async updateWallet(schoolId, currentBalance) {
+    const updatedWallet = await Wallet.update({ currentBalance },
+      {
+        where: { schoolId },
+        returning: true, 
+      });
+
+      return updatedWallet[1];
+  }
 }
 
-const { create } = WalletRepository;
-export { create };
+const { create, find, updateWallet } = WalletRepository;
+export { create, find, updateWallet };

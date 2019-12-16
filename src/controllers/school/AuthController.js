@@ -2,11 +2,11 @@ import bcrypt from 'bcrypt';
 import sendMail from '../../helpers/sendMail';
 import { welcomeMail, welcomeMailText } from '../../helpers/mailContent';
 import { saveSchool, findSchool, addNewToken, updateSchoolToken, findTokenByUserId, resetSchoolPassword } from '../../repository/schoolRepository';
-import { createNewSchoolWallet } from '../wallet/WalletController';
+import { createNewSchoolWallet } from '../../helpers/wallet/WalletHelper';
 import { generateToken } from '../../middlewares/jwtHandler';
 import { uploadFile } from '../../cloudinaryConfig';
 import { randomCodeGenerator } from '../../helpers/randomCodeGenerator';
-import { createTransaction } from '../../controllers/wallet/TransactionController';
+import { createTransaction } from '../../helpers/wallet/TransactionHelper';
 
 class AuthController {
   static async signup (request, response){
