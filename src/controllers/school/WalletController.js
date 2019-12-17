@@ -1,6 +1,7 @@
 import { updateWalletBalance } from '../../helpers/wallet/WalletHelper';
 import { createTransaction } from '../../helpers/wallet/TransactionHelper';
-
+import { findSchoolById } from '../../repository/schoolRepository';
+import { formatDetails } from './AuthController';
 class WalletController {
   static async fundWallet(request, response) {
     const { amount, reference, status } = request.body;
@@ -17,7 +18,12 @@ class WalletController {
 
       if(updatedBalance) {
         await createTransaction(id, 'credit', 'fund_wallet', money, reference, status);
-        return response.status(200).json({ message: 'wallet funded successfully', updatedBalance });
+        const foundSchool = await findSchoolById(updatedBalance[0].schoolId);
+
+        if(foundSchool) {
+          const schoolDetails = await formatDetails(foundSchool);
+          return response.status(200).json({ message: 'wallet funded successfully', schoolDetails });
+        }
       }
     } catch(error) {
       response.status(500).json({ message: error.message });

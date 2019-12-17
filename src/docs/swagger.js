@@ -448,19 +448,36 @@ export default {
                 status: {
                   type: 'string'
                 },
-                updatedBalance: {
+                schoolDetails: {
                   type: 'object'
                 },
               },
               example: {
                 status: 'wallet funded successfully',
-                updatedBalance: [
+                schoolDetails: [
                   {
                     id: 1,
-                    schoolId: 2,
-                    currentBalance: 20,
-                    createdAt: '2019-12-04T16:12:06.546Z',
-                    updatedAt: '2019-12-16T21:20:29.740Z',
+                    name: 'new shcooter',
+                    email: 'jaybaba@gmail.com',
+                    address: 'sdvcsdvcsd',
+                    phone: '49834',
+                    logo: null,
+                    wallet: {
+                      id: 1,
+                      currentBalance: 120
+                  },
+                  transactions: [
+                      {
+                          schoolId: 1,
+                          type: 'credit',
+                          amount: 0,
+                          details: 'created wallet',
+                          referenceNumber: null,
+                          status: null,
+                          createdAt: '2019-12-04T16:12:06.569Z',
+                          updatedAt: '2019-12-04T16:12:06.569Z'
+                      },
+                    ],
                   }
                 ],
               }

@@ -31,6 +31,20 @@ class SchoolRepository {
   static async findSchoolById(id) {
     const foundSchool = await School.findOne({
       where: { id },
+      include: [
+        {
+          model: Wallet,
+          as: 'wallet',
+          attributes: ['id', 'currentBalance']
+        },
+        {
+          model: Transaction,
+          as: 'transaction',
+          attributes: {
+            exclude: ['id']
+          }
+        }
+      ],
     });
 
     return foundSchool;
