@@ -64,7 +64,89 @@ export default {
                 }
               },
               example: {
-                message: 'successf',
+                message: 'success',
+                schoolDetails: {
+                  id: 1,
+                  wallet: {
+                    currentBalance: 0
+                  },
+                  transactions: [],
+                },
+              }
+            }
+          },
+          400: {
+            description: 'Validation exception'
+          },
+          500: {
+            description: 'Other exceptions'
+          }
+        }
+      },
+      put: {
+        tags: ['schools'],
+        summary: 'Updating logged in school',
+        description: '',
+        parameters: [
+          {
+            name: 'School',
+            in: 'body',
+            description: 'School object that is to be updated',
+            schema: {
+              properties: {
+                email: {
+                  required: true,
+                  type: 'string'
+                },
+                name: {
+                  required: true,
+                  type: 'string'
+                },
+                address: {
+                  required: false,
+                  type: 'string'
+                },
+                phone: {
+                  required: true,
+                  type: 'string'
+                },
+                logo: {
+                  required: false,
+                  type: 'string'
+                }
+              }
+            }
+          },
+          {
+            name: 'token',
+            in: 'header',
+            required: true,
+            type: 'string',
+            description: ''
+          },
+          {
+            name: 'schoolId',
+            in: 'params',
+            required: true,
+            type: 'number',
+            description: ''
+          }
+        ],
+        produces: ['application/json'],
+        responses: {
+          200: {
+            description: 'successfully updated your details',
+            schema: {
+              properties: {
+                message: {
+                  type: 'string'
+                },
+                schoolDetails: {
+                  type: 'object'
+                }
+              },
+              example: {
+                message: 'successfully updated your details',
                 schoolDetails: {
                   id: 1,
                   wallet: {
@@ -83,6 +165,59 @@ export default {
           }
         }
       }
+    },
+    'school/update-password': {
+      put: {
+        tags: ['schools'],
+        summary: 'Update password of logged in school',
+        description: '',
+        parameters: [
+          {
+            name: 'token',
+            in: 'header',
+            required: true,
+            type: 'string',
+            description: ''
+          },
+          {
+            name: 'School',
+            in: 'body',
+            description: 'School object that is to be updated',
+            schema: {
+              properties: {
+                oldPassword: {
+                  required: true,
+                  type: 'string'
+                },
+                newPassword: {
+                  required: true,
+                  type: 'string'
+                },
+              }
+            }
+          },
+        ],
+        produces: ['application/json'],
+        responses: {
+          200: {
+            description: 'Password successfully changed',
+            schema: {
+              properties: {
+                message: 'string',
+              },
+              example: {
+                message: 'Password successfully changed',
+              }
+            }
+          },
+          400: {
+            description: 'Validation exception'
+          },
+          500: {
+            description: 'Other exceptions'
+          }
+        }
+      },
     },
     'school/signup': {
       get: {
@@ -137,46 +272,6 @@ export default {
               },
               example: {
                 status: 'success',
-              }
-            }
-          },
-          400: {
-            description: 'Validation exception'
-          },
-          500: {
-            description: 'Other exceptions'
-          }
-        }
-      }
-    },
-    '/school/all-schools': {
-      get: {
-        tags: ['admin'],
-        summary: 'Get all schools by admin',
-        description: '',
-        parameters: [
-          {
-            name: 'token',
-            in: 'header',
-            required: true,
-            type: 'string',
-            description: ''
-          },
-        ],
-        produces: ['application/json'],
-        responses: {
-          200: {
-            description: 'successfully retrieved all schools',
-            schema: {
-              properties: {
-                message: 'string',
-                allSchools: {
-                  type: 'array'
-                }
-              },
-              example: {
-                message: 'successfully retrieved all schools',
-                allSchools: [],
               }
             }
           },
@@ -254,90 +349,6 @@ export default {
           },
           401: {
             description: 'Unauthorized'
-          },
-          500: {
-            description: 'Other exceptions'
-          }
-        }
-      }
-    },
-    '/school/:schoolId': {
-      put: {
-        tags: ['schools'],
-        summary: 'Updating an existing school',
-        description: '',
-        parameters: [
-          {
-            name: 'School',
-            in: 'body',
-            description: 'School object that is to be updated',
-            schema: {
-              properties: {
-                email: {
-                  required: true,
-                  type: 'string'
-                },
-                name: {
-                  required: true,
-                  type: 'string'
-                },
-                address: {
-                  required: false,
-                  type: 'string'
-                },
-                phone: {
-                  required: true,
-                  type: 'string'
-                },
-                logo: {
-                  required: false,
-                  type: 'string'
-                }
-              }
-            }
-          },
-          {
-            name: 'token',
-            in: 'header',
-            required: true,
-            type: 'string',
-            description: ''
-          },
-          {
-            name: 'schoolId',
-            in: 'params',
-            required: true,
-            type: 'number',
-            description: ''
-          }
-        ],
-        produces: ['application/json'],
-        responses: {
-          200: {
-            description: 'successfully updated your details',
-            schema: {
-              properties: {
-                message: {
-                  type: 'string'
-                },
-                schoolDetails: {
-                  type: 'object'
-                }
-              },
-              example: {
-                message: 'successfully updated your details',
-                schoolDetails: {
-                  id: 1,
-                  wallet: {
-                    currentBalance: 0
-                  },
-                  transactions: [],
-                },
-              }
-            }
-          },
-          400: {
-            description: 'Validation exception'
           },
           500: {
             description: 'Other exceptions'
@@ -566,6 +577,46 @@ export default {
                     ],
                   }
                 ],
+              }
+            }
+          },
+          400: {
+            description: 'Validation exception'
+          },
+          500: {
+            description: 'Other exceptions'
+          }
+        }
+      }
+    },
+    '/school/all-schools': {
+      get: {
+        tags: ['admin'],
+        summary: 'Get all schools by admin',
+        description: '',
+        parameters: [
+          {
+            name: 'token',
+            in: 'header',
+            required: true,
+            type: 'string',
+            description: ''
+          },
+        ],
+        produces: ['application/json'],
+        responses: {
+          200: {
+            description: 'successfully retrieved all schools',
+            schema: {
+              properties: {
+                message: 'string',
+                allSchools: {
+                  type: 'array'
+                }
+              },
+              example: {
+                message: 'successfully retrieved all schools',
+                allSchools: [],
               }
             }
           },
@@ -863,6 +914,7 @@ export default {
         }
       }
     },
+
     '/admin/signup': {
       post: {
         tags: ['admin'],

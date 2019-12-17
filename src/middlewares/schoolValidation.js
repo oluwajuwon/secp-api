@@ -3,10 +3,10 @@ import { findSchoolById } from '../repository/schoolRepository';
 class SchoolValidation {
 
   validateParams = async (request, response, next) => {
-    const { schoolId:id } = request.params;
+    const { payload: { id } } = request.userData; 
 
     try{
-      const { errors, foundSchool } = await this.validateSchoolId(id, request.userData);
+      const { errors, foundSchool } = await this.validateSchoolId(id);
 
       if (errors.length > 0) {
         return response.status(400).json({ status: 'Error', errors });
@@ -20,18 +20,12 @@ class SchoolValidation {
     }
   }
 
-  validateSchoolId = async (id, userData) => {
+  validateSchoolId = async (id) => {
     let errors = [];
     const foundSchool = await findSchoolById(id)
 
-    if (isNaN(parseInt(id))) {
-      errors.push('Please enter a valid id')
-    }
     if(!foundSchool) {
       errors.push('School does not exist')
-    }
-    if(foundSchool.id !== userData.payload.id) {
-      errors.push(`You can't edit this information`)
     }
 
     return { errors, foundSchool };
