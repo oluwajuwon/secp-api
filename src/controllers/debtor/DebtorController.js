@@ -81,10 +81,11 @@ class DebtorController {
   static async findDebtor (request, response) {
     const  { firstName, lastName, middleName, dateOfBirth } = request.body;
     const { payload: { id } } = request.userData
+    const money = parseFloat(process.env.SEARCH_COST)
     try {
       const searchedDebtor = await searchDebtor(firstName, lastName, middleName, dateOfBirth);
       if(searchedDebtor) {
-        await updateWalletBalance(id, process.env.SEARCH_COST, 'DEBIT');
+        await updateWalletBalance(id, money, 'DEBIT');
         await createTransaction(id, 'debit', 'search', process.env.SEARCH_COST );
       }
       if(searchedDebtor && searchedDebtor.length < 1 ) {
