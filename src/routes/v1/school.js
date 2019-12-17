@@ -1,6 +1,6 @@
 import express from 'express';
 import { signup, login, forgotPassword, resetPassword } from '../../controllers/school/AuthController';
-import { update, confirmPasswordResetCode } from '../../controllers/school/SchoolController';
+import { update, confirmPasswordResetCode, getSchool } from '../../controllers/school/SchoolController';
 import { getSchools } from '../../controllers/admin/AdminController';
 import { verifyToken } from '../../middlewares/jwtHandler';
 import adminValidation from '../../middlewares/adminValidation';
@@ -25,6 +25,7 @@ schoolRouter.put('/auth/reset-password', resetPassword)
 schoolRouter.put('/:schoolId', upload.any(), verifyToken, validateParams, update)
 
 schoolRouter.post('/fund-wallet', verifyToken, fundWallet);
-schoolRouter.get('/', verifyToken, verifyAdmin, getSchools);
+schoolRouter.get('/all-schools', verifyToken, verifyAdmin, getSchools);
+schoolRouter.get('/', verifyToken, getSchool);
 
 export default schoolRouter;
