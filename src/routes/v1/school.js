@@ -22,8 +22,8 @@ schoolRouter.post('/auth/forgot-password', forgotPassword)
 schoolRouter.post('/auth/confirm-code', confirmPasswordResetCode)
 schoolRouter.put('/auth/reset-password', resetPassword)
 
-schoolRouter.put('/:schoolId', upload.any(), verifyToken, validateParams, update)
-schoolRouter.put('/', verifyToken, changePassword)
+schoolRouter.put('/', upload.any(), verifyToken, validateParams, update)
+schoolRouter.put('/update-password', verifyToken, changePassword)
 
 schoolRouter.post('/fund-wallet', verifyToken, fundWallet);
 schoolRouter.get('/all-schools', verifyToken, verifyAdmin, getSchools);
