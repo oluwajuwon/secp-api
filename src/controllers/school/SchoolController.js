@@ -1,4 +1,5 @@
-import { updateSchool, findSchool, findTokenByUserId, findSchoolById } from '../../repository/schoolRepository';
+import bcrypt from 'bcrypt';
+import { updateSchool, findSchool, findTokenByUserId, findSchoolById, resetSchoolPassword } from '../../repository/schoolRepository';
 import { uploadFile } from '../../cloudinaryConfig';
 import { formatDetails } from './AuthController';
 
@@ -91,7 +92,30 @@ class SchoolController {
       response.status(500).json({ message: error.message });
     }
   }
+
+  static async changePassword (request, response) {
+    const { newPassword, oldPassword } = request.body 
+    const { payload: { id, email } } = request.userData;
+    
+    try {
+      const foundSchool = await findSchoolById(id);
+      const checkPassword = bcrypt.compareSync(oldPassword, foundSchool.password);
+
+      if(!checkPassword) {
+        return response.status(400).json({ message: 'Incorrect old password' });
+      }
+      const password = bcrypt.hashSync(newPassword, 10);
+      const updatedSchool = await resetSchoolPassword(email, password);
+
+      if(updatedSchool){
+        return response.status(200).json({ message: 'Password successfully changed' });
+      }
+
+    } catch (error) {
+      return response.status(500).json({ message: error.message });
+    }
+  }
 }
 
-const { update, sortUpdateSchoolData, uploadImage, confirmPasswordResetCode, getSchool } = SchoolController;
-export { update, sortUpdateSchoolData, uploadImage, confirmPasswordResetCode, getSchool };
+const { update, sortUpdateSchoolData, uploadImage, confirmPasswordResetCode, getSchool, changePassword } = SchoolController;
+export { update, sortUpdateSchoolData, uploadImage, confirmPasswordResetCode, getSchool, changePassword };
