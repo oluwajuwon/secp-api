@@ -82,6 +82,7 @@ class DebtorController {
     const  { firstName, lastName, middleName, dateOfBirth } = request.body;
     const { payload: { id } } = request.userData
     const money = parseFloat(process.env.SEARCH_COST)
+    
     try {
       const searchedDebtor = await searchDebtor(firstName, lastName, middleName, dateOfBirth);
       if(searchedDebtor) {
