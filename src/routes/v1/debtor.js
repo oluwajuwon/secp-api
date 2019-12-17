@@ -4,7 +4,7 @@ import { verifyToken } from '../../middlewares/jwtHandler';
 import debtorValidation from '../../middlewares/debtorValidation';
 import { checkWalletBalance } from '../../middlewares/walletValidation';
 
-const { validateDebtor, validateDebtorStatus } = debtorValidation;
+const { validateDebtor, validateDebtorStatus, validateDebtorSearchInput } = debtorValidation;
 
 const debtorRouter = express.Router();
 
@@ -12,7 +12,7 @@ debtorRouter.post('/debtor', verifyToken, validateDebtor, addNew );
 debtorRouter.put('/debtor', verifyToken, validateDebtorStatus, updateDebtorInfo);
 
 debtorRouter.get('/debtors', verifyToken, getAllDebtors);
-debtorRouter.post('/search/debtor', verifyToken, checkWalletBalance, findDebtor );
+debtorRouter.post('/search/debtor', verifyToken, checkWalletBalance, validateDebtorSearchInput, findDebtor );
 
 
 export default debtorRouter;

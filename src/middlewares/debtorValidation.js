@@ -179,6 +179,43 @@ class DebtorValidation {
 
   }
 
+  validateDebtorSearchInput = async (request, response, next) => {
+    const { firstName, lastName, middleName, dateOfBirth  } = this.trimDebtorFields(request.body)
+    
+    let errors = await this.isSearchParametersValid(firstName, lastName, middleName, dateOfBirth);
+
+    if (errors.length > 0) {
+       return response.status(400).json({ status: 'Error', errors });
+    }
+
+    request.body = { firstName,
+      lastName,
+      middleName,
+      dateOfBirth };
+    return next();
+  }
+
+  isSearchParametersValid = async (
+    firstName, lastName, middleName, dateOfBirth
+    ) => {
+    let errors = [];
+
+    if (firstName === '' || firstName === undefined) {
+      errors.push(`Student's first name is required is required`)
+    }
+    if (lastName === '' || lastName === undefined) {
+      errors.push(`Student's last name is required`)
+    }
+    if (!middleName) {
+      null
+    }
+    if (dateOfBirth === '' || dateOfBirth === undefined) {
+      errors.push(`Student's date of birth is required`)
+    }
+    
+    return errors;
+ }
+
 }
 
 const debtorValidation = new DebtorValidation();
