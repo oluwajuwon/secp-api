@@ -1,4 +1,4 @@
-import { updateSchool, findSchool, findTokenByUserId } from '../../repository/schoolRepository';
+import { updateSchool, findSchool, findTokenByUserId, findSchoolById } from '../../repository/schoolRepository';
 import { uploadFile } from '../../cloudinaryConfig';
 import { formatDetails } from './AuthController';
 
@@ -76,7 +76,22 @@ class SchoolController {
       response.status(500).json({ message: error.message });
     }
   }
+
+  static async getSchool (request, response) {
+    const { payload: { id } } = request.userData;
+
+    try{
+      const foundSchool = await findSchoolById(id);
+
+      if(foundSchool){
+        const schoolDetails = await formatDetails(foundSchool);
+        return response.status(200).json({ message: 'success', schoolDetails });
+      }
+    } catch(error) {
+      response.status(500).json({ message: error.message });
+    }
+  }
 }
 
-const { update, sortUpdateSchoolData, uploadImage, confirmPasswordResetCode } = SchoolController;
-export { update, sortUpdateSchoolData, uploadImage, confirmPasswordResetCode };
+const { update, sortUpdateSchoolData, uploadImage, confirmPasswordResetCode, getSchool } = SchoolController;
+export { update, sortUpdateSchoolData, uploadImage, confirmPasswordResetCode, getSchool };

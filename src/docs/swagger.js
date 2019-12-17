@@ -38,10 +38,56 @@ export default {
     },
   ],
   paths: {
-    '/school/signup': {
-      post: {
+    'school/': {
+      get: {
         tags: ['schools'],
-        summary: 'A new school signup',
+        summary: 'Get logged in school',
+        description: '',
+        parameters: [
+          {
+            name: 'token',
+            in: 'header',
+            required: true,
+            type: 'string',
+            description: ''
+          },
+        ],
+        produces: ['application/json'],
+        responses: {
+          200: {
+            description: 'successfully retrieved school details',
+            schema: {
+              properties: {
+                message: 'string',
+                schoolDetails: {
+                  type: 'object'
+                }
+              },
+              example: {
+                message: 'successf',
+                schoolDetails: {
+                  id: 1,
+                  wallet: {
+                    currentBalance: 0
+                  },
+                  transactions: [],
+                },
+              }
+            }
+          },
+          400: {
+            description: 'Validation exception'
+          },
+          500: {
+            description: 'Other exceptions'
+          }
+        }
+      }
+    },
+    'school/signup': {
+      get: {
+        tags: ['schools'],
+        summary: 'Signup of school',
         description: '',
         parameters: [
           {
@@ -91,6 +137,46 @@ export default {
               },
               example: {
                 status: 'success',
+              }
+            }
+          },
+          400: {
+            description: 'Validation exception'
+          },
+          500: {
+            description: 'Other exceptions'
+          }
+        }
+      }
+    },
+    '/school/all-schools': {
+      get: {
+        tags: ['admin'],
+        summary: 'Get all schools by admin',
+        description: '',
+        parameters: [
+          {
+            name: 'token',
+            in: 'header',
+            required: true,
+            type: 'string',
+            description: ''
+          },
+        ],
+        produces: ['application/json'],
+        responses: {
+          200: {
+            description: 'successfully retrieved all schools',
+            schema: {
+              properties: {
+                message: 'string',
+                allSchools: {
+                  type: 'array'
+                }
+              },
+              example: {
+                message: 'successfully retrieved all schools',
+                allSchools: [],
               }
             }
           },
