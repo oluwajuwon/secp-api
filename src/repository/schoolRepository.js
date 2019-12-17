@@ -72,10 +72,11 @@ class SchoolRepository {
   static async resetSchoolPassword(email, password){
     const updatedSchool = await School.update({ password }, 
       {
-        where: { email }
+        where: { email },
+        returning: true,
       });
 
-      return updatedSchool;
+      return updatedSchool[1];
   }
 
   static async getAllSchools() {
