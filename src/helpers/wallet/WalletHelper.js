@@ -2,7 +2,7 @@ import { create, find, updateWallet } from '../../repository/walletRepository';
 
 class WalletHelper {
   static async createNewSchoolWallet(schoolId) {
-    const currentBalance = 0
+    const currentBalance = parseFloat(0);
     await create(schoolId, currentBalance);
   }
 
