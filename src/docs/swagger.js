@@ -591,8 +591,8 @@ export default {
     },
     '/school/all-schools': {
       get: {
-        tags: ['admin'],
-        summary: 'Get all schools by admin',
+        tags: ['schools'],
+        summary: 'Get all schools by all registered schools',
         description: '',
         parameters: [
           {
