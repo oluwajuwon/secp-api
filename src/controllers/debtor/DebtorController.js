@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import {
   saveDebtor, updateDebtor, getDebtorsBySchoolId, getDebtors, searchDebtor
 } from '../../repository/debtorRepository';
+import { uploadImage } from '../school/AuthController';
 import { updateWalletBalance } from '../../helpers/wallet/WalletHelper';
 import { createTransaction } from '../../helpers/wallet/TransactionHelper';
 
@@ -21,11 +22,13 @@ class DebtorController {
       classOwed,
       amount,
       paymentStatus,
+      studentImage,
     } = request.body
 
    const { id:schoolId } = request.userData.payload;
 
     try {
+      const { cloudImage: image } = studentImage ? await uploadImage(studentImage) : '';
       const newDebtor = await saveDebtor({
         schoolId,
         firstName,
@@ -39,6 +42,7 @@ class DebtorController {
         classOwed,
         amount,
         paymentStatus,
+        image
       });
       if(newDebtor){
         response.status(201).json({ status: 'success'});

@@ -1,7 +1,9 @@
-import { findDebtor }from '../repository/debtorRepository';
+import { findDebtor } from '../repository/debtorRepository';
+import authValidation from './authValidation';
 
 class DebtorValidation {
   validateDebtor = async (request, response, next) => {
+    const studentImage = request.files[0];
     const {
       firstName,
       lastName,
@@ -27,7 +29,8 @@ class DebtorValidation {
       year,
       classOwed,
       amount,
-      paymentStatus
+      paymentStatus,
+      studentImage
       );
 
       if (errors.length > 0) {
@@ -44,7 +47,7 @@ class DebtorValidation {
         year,
         classOwed,
         amount,
-        paymentStatus };
+        paymentStatus, studentImage };
       return next();
 
   }
@@ -78,7 +81,8 @@ class DebtorValidation {
 
   isRequestParametersValid = async (
     firstName, lastName, middleName, dateOfBirth, gender,
-    schoolName, term, year,classOwed, amount, paymentStatus
+    schoolName, term, year,classOwed, amount, paymentStatus, 
+    studentImage,
     ) => {
     let errors = [];
     const status = ['yes','no'];
@@ -121,6 +125,9 @@ class DebtorValidation {
     }
     if (!status.includes(paymentStatus.toLowerCase().trim())) {
       errors.push('The status should either be yes or no')
+    }
+    if (studentImage && !authValidation.isImageValid(studentImage)) {
+      errors.push('please add a valid image')
     }
 
     return errors;
