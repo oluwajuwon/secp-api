@@ -685,6 +685,11 @@ export default {
                   required: true,
                   type: 'string'
                 },
+                studentImage: {
+                  required: false,
+                  type: 'string',
+                  format: 'binary',
+                }
               }
             }
           },
